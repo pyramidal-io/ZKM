@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zka.dev/protocol-family/interface-manifest-v1.schema.json",
+  "title": "ZKA protocol-family interface manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "epoch",
+    "authority",
+    "protocols",
+    "toolchains",
+    "interfaces",
+    "domains",
+    "invariants",
+    "compatibility",
+    "artifact_bindings",
+    "projections",
+    "vector_file"
+  ],
+  "properties": {
+    "format": {"const": "zka:protocol-family:interfaces:v1"},
+    "epoch": {"type": "string", "pattern": "^zka:protocol-family:[0-9]{4}-[0-9]{2}-[0-9]{2}\\.[1-9][0-9]*$"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "manifest_path", "vector_path", "matrix_path", "published_on"],
+      "properties": {
+        "repository": {"const": "pyramidal-io/ZKA.dev"},
+        "manifest_path": {"const": "protocol-family/interface-manifest-v1.json"},
+        "vector_path": {"const": "protocol-family/golden-vectors-v1.json"},
+        "matrix_path": {"const": "protocol-family/compatibility-matrix.md"},
+        "published_on": {"type": "string", "format": "date"}
+      }
+    },
+    "protocols": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["zka", "zkc", "afp", "kdc", "zkm"],
+      "properties": {
+        "zka": {"$ref": "#/$defs/protocol"},
+        "zkc": {"$ref": "#/$defs/protocol"},
+        "afp": {"$ref": "#/$defs/protocol"},
+        "kdc": {"$ref": "#/$defs/protocol"},
+        "zkm": {"$ref": "#/$defs/protocol"}
+      }
+    },
+    "toolchains": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["zka", "zkc", "zkm"],
+      "properties": {
+        "zka": {"$ref": "#/$defs/toolchain"},
+        "zkc": {"$ref": "#/$defs/toolchain"},
+        "zkm": {"$ref": "#/$defs/toolchain"}
+      }
+    },
+    "interfaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bundle",
+        "afp_envelope",
+        "afp_session_context_projection",
+        "proof_envelopes",
+        "presentation_profiles",
+        "zkc_presentation_context_modes",
+        "afp_presentation_result",
+        "binding_circuits",
+        "zka_transfer_binding_v2_public_inputs",
+        "zkc_kyc_v2_public_inputs"
+      ],
+      "properties": {
+        "bundle": {"type": "string"},
+        "afp_envelope": {"type": "string"},
+        "afp_session_context_projection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "source_encoding", "integer_encoding", "reduction", "zero", "target_encoding", "targets"],
+          "properties": {
+            "source": {"const": "afp:envelope:v1.session_context"},
+            "source_encoding": {"const": "X_<64-lowercase-hex>"},
+            "integer_encoding": {"const": "unsigned-big-endian"},
+            "reduction": {"const": "mod-bn254-fr"},
+            "zero": {"const": "reject"},
+            "target_encoding": {"const": "0x<64-lowercase-hex>"},
+            "targets": {"const": ["zka:bundle:v1.metadata.context", "zka:bundle:v1.transaction.publicInputs.context", "zka:bundle:v1.coord_proof.receipt.context"]}
+          }
+        },
+        "proof_envelopes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "presentation_profiles": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "zkc_presentation_context_modes": {"type": "array", "items": {"const": "afp:zkc-presentation-context:v2"}, "minItems": 1, "maxItems": 1},
+        "afp_presentation_result": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "required_members",
+            "predicate_record",
+            "required_predicate_policy",
+            "predicate_field_classification",
+            "subject_assurance",
+            "telemetry_fixture_predicates",
+            "generic_zkc_predicates_are_insufficient"
+          ],
+          "properties": {
+            "required_members": {"const": ["proof_context", "credential_subject_aid", "proven_predicates"]},
+            "predicate_record": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "required_members",
+                "additional_members",
+                "optional_values",
+                "comparison",
+                "comparison_scope",
+                "duplicates",
+                "predicate_version",
+                "attestation_window_encoding",
+                "instance_attestation_v2",
+                "non_instance_attestation_root_fields"
+              ],
+              "properties": {
+                "required_members": {"const": ["predicate_id", "predicate_version", "root_class", "root_authority_identifier", "attestation_window", "subject_aid"]},
+                "additional_members": {"const": "forbidden"},
+                "optional_values": {"const": "explicit-null"},
+                "comparison": {"const": "exact-full-record"},
+                "comparison_scope": {"const": "verified-result-to-evidence-snapshot"},
+                "duplicates": {"const": "reject-by-predicate-id"},
+                "predicate_version": {"const": "must-match-trailing-id-version"},
+                "attestation_window_encoding": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["type", "required_members", "timestamp", "ordering"],
+                  "properties": {
+                    "type": {"const": "object-or-null"},
+                    "required_members": {"const": ["starts_at", "ends_at"]},
+                    "timestamp": {"const": "whole-second-utc"},
+                    "ordering": {"const": "starts_at-before-ends_at"}
+                  }
+                },
+                "instance_attestation_v2": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["predicate_id", "required_non_null_members", "root_classes", "root_policy"],
+                  "properties": {
+                    "predicate_id": {"const": "afp.telemetry.instance_attestation.v2"},
+                    "required_non_null_members": {"const": ["root_class", "root_authority_identifier", "attestation_window", "subject_aid"]},
+                    "root_classes": {"const": ["root:build-provenance", "root:tee-attestation", "root:publisher-manifest"]},
+                    "root_policy": {"const": "exact-class-authority-pair"}
+                  }
+                },
+                "non_instance_attestation_root_fields": {"const": "must-be-null"}
+              }
+            },
+            "required_predicate_policy": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["location", "result_member", "required_members", "accepted_predicate_ids", "required_predicate_ids", "accepted_instance_attestation_roots", "instance_attestation_root_biconditional"],
+              "properties": {
+                "location": {"const": "afp.required_predicate_policy"},
+                "result_member": {"const": false},
+                "required_members": {"const": ["accepted_predicate_ids", "required_predicate_ids", "accepted_instance_attestation_roots"]},
+                "accepted_predicate_ids": {"const": "nonempty-unique-sorted-array"},
+                "required_predicate_ids": {"const": "unique-sorted-subset-of-accepted"},
+                "accepted_instance_attestation_roots": {"const": "unique-sorted-exact-class-authority-pairs"},
+                "instance_attestation_root_biconditional": {"const": true}
+              }
+            },
+            "predicate_field_classification": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["predicate_id", "predicate_version", "root_class", "root_authority_identifier", "attestation_window", "subject_aid"],
+              "properties": {
+                "predicate_id": {"const": "bound"},
+                "predicate_version": {"const": "bound"},
+                "root_class": {"const": "bound"},
+                "root_authority_identifier": {"const": "bound"},
+                "attestation_window": {"const": "free"},
+                "subject_aid": {"const": "free"}
+              }
+            },
+            "subject_assurance": {"type": "object", "additionalProperties": false, "required": ["non_result_metadata", "basis"], "properties": {"non_result_metadata": {"const": true}, "basis": {"const": ["issuer-authenticated-aid-claim", "verified-companion-subject-binding-proof"]}}},
+            "telemetry_fixture_predicates": {"const": ["afp.telemetry.instance_attestation.v2"]},
+            "generic_zkc_predicates_are_insufficient": {"const": true}
+          }
+        },
+        "binding_circuits": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "zka_transfer_binding_v2_public_inputs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "zkc_kyc_v2_public_inputs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "domains": {"type": "array", "items": {"$ref": "#/$defs/domain"}, "uniqueItems": true},
+    "invariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["freedom_safeguard_count", "frozen_v1_bytes", "operator_blindness", "negotiation", "dependency_edges"],
+      "properties": {
+        "freedom_safeguard_count": {"const": 6},
+        "frozen_v1_bytes": {"const": true},
+        "operator_blindness": {"const": "preserved"},
+        "negotiation": {"const": "exactly-one-match-fail-closed"},
+        "dependency_edges": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "compatibility": {"type": "array", "items": {"$ref": "#/$defs/combination"}, "minItems": 1},
+    "artifact_bindings": {"type": "array", "items": {"$ref": "#/$defs/binding"}},
+    "projections": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["zka", "afp", "zkc", "zkm"],
+      "properties": {
+        "zka": {"$ref": "#/$defs/projection"},
+        "afp": {"$ref": "#/$defs/projection"},
+        "zkc": {"$ref": "#/$defs/projection"},
+        "zkm": {"$ref": "#/$defs/projection"}
+      }
+    },
+    "vector_file": {"const": "protocol-family/golden-vectors-v1.json"}
+  },
+  "$defs": {
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "state", "owner"],
+      "properties": {
+        "version": {"type": "string"},
+        "state": {"enum": ["supported", "deprecated", "forbidden"]},
+        "owner": {"type": "string"}
+      }
+    },
+    "toolchain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nargo", "barretenberg"],
+      "properties": {"nargo": {"type": "string"}, "barretenberg": {"type": "string"}}
+    },
+    "domain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tag", "owner", "class", "field_hex"],
+      "properties": {
+        "tag": {"type": "string"},
+        "owner": {"enum": ["KDC", "ZKA", "ZKC"]},
+        "class": {"enum": ["derivation", "operational"]},
+        "field_hex": {"type": "string", "pattern": "^0x[0-9a-f]{64}$"}
+      }
+    },
+    "combination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "zka", "zkc", "afp", "kdc", "zkm", "bundle", "proof", "profile", "binding_circuit", "transaction", "presentation_context_mode", "state"],
+      "properties": {
+        "id": {"type": "string"},
+        "zka": {"type": "string"}, "zkc": {"type": "string"}, "afp": {"type": "string"}, "kdc": {"type": "string"}, "zkm": {"type": "string"},
+        "bundle": {"type": "string"}, "proof": {"type": "string"}, "profile": {"type": "string"},
+        "binding_circuit": {"type": ["string", "null"]},
+        "transaction": {"enum": ["required", "forbidden"]},
+        "presentation_context_mode": {"const": "afp:zkc-presentation-context:v2"},
+        "state": {"enum": ["supported", "deprecated", "forbidden"]}
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "repository", "path", "sha256"],
+      "properties": {
+        "id": {"type": "string"}, "repository": {"enum": ["zka", "afp", "zkc", "zkm"]},
+        "path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+      }
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assertions", "vector_cases"],
+      "properties": {
+        "assertions": {"type": "array", "items": {"$ref": "#/$defs/assertion"}},
+        "vector_cases": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "assertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "path"],
+      "properties": {
+        "id": {"type": "string"},
+        "kind": {"enum": ["json_pointer_equals", "json_array_equals", "text_contains", "text_excludes", "sha256_equals", "path_exists"]},
+        "path": {"type": "string"},
+        "pointer": {"type": "string"},
+        "expected": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+[package]
+name = "zka_transfer_aztec"
+authors = ["ZKA Contributors"]
+compiler_version = ">=1.0.0"
+type = "contract"
+
+[dependencies]
+aztec = { git = "https://github.com/aztec-labs-eng/aztec-nr", tag = "v6.0.0", directory = "aztec" }
+zka_lib = { path = "../../noir/zka_lib" }
+zka_aztec_lib = { path = "../zka_aztec_lib" }
+# Compliance source of truth. The transfer gate calls the private view
+# ZKACredential.assert_compliant (see transfer_with_compliance). One-way coupling: the
+# credential contract does NOT depend on the transfer contract, so this is not a
+# circular dependency.
+zka_credential_aztec = { path = "../zka_credential_aztec" }
+# Test-only nested caller used to exercise the authwit-designated msg_sender.
+zka_authwit_test_proxy = { path = "../zka_authwit_test_proxy" }

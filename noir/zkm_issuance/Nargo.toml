@@ -1,0 +1,9 @@
+[package]
+name = "zkm_issuance"
+type = "bin"
+authors = ["ZKM Protocol"]
+compiler_version = ">=1.0.0"
+description = "ZKM §3 issuance proof — well-formed depth-0 mandate insertion"
+
+[dependencies]
+zkm_lib = { path = "../zkm_lib" }

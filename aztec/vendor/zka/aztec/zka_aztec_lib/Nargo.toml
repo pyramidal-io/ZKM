@@ -1,0 +1,12 @@
+[package]
+name = "zka_aztec_lib"
+authors = ["ZKA Contributors"]
+compiler_version = ">=1.0.0"
+type = "lib"
+
+[dependencies]
+aztec = { git = "https://github.com/aztec-labs-eng/aztec-nr", tag = "v6.0.0", directory = "aztec" }
+zka_lib = { path = "../../noir/zka_lib" }
+# Issuance digest (ZKACredential.bind_credential). Same tag that aztec-nr v6.0.0
+# itself depends on; test_issuance_digest_kat fails loudly if the output moves.
+sha256 = { tag = "v0.3.0", git = "https://github.com/noir-lang/sha256" }

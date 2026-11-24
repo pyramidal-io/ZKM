@@ -1,0 +1,10 @@
+# Canonical Noir toolchain versions for ZKM development.
+# Run `./scripts/setup-noir.sh` to install these automatically.
+#
+# Pins are kept in lockstep with ZKA.dev and ZKC (same proving stack:
+# UltraHonk / BN254 / Poseidon2). bb (Barretenberg) is installed from the
+# explicit reviewed BB_VERSION via `bbup -v`; compatibility is verified here.
+NARGO_VERSION=1.0.0-beta.25
+# Explicit barretenberg pin for production artifact generation, mirroring the
+# Noir's beta.25 release script pairs this compiler with Barretenberg 5.0.0.
+BB_VERSION=5.0.0

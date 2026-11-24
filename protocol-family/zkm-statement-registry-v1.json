@@ -1,0 +1,512 @@
+{
+  "format": "zkm:statement-registry:v1",
+  "authority": {
+    "protocol": "zkm",
+    "repository": "pyramidal-io/ZKM.dev",
+    "registry_path": "protocol-family/zkm-statement-registry-v1.json",
+    "specification_path": "docs/zkm_specification.md",
+    "cutover_note_path": "docs/zkm_v1_to_v2_cutover.md",
+    "goldens_path": "noir/scripts/goldens/circuits.txt",
+    "validator_path": "scripts/check-zkm-statement-registry.py",
+    "mirrored_from_zka": false
+  },
+  "purpose": "The citable, digest-pinnable identity of ZKM's proof-statement and verification-key surface. The spec version string (0.1.0-draft) is identical across every ZKM revision, so family epoch zka:protocol-family:2026-08-15.1 pins the revision LABEL (0.1.0-draft (rev 10)) rather than the bare version. That label discriminates one revision from another but is still prose: it does not pin a verification key, a public-input vector, a bytecode digest or a toolchain, and nothing in the manifest forces a later breaking revision to move it. This scanner-clean public projection retains the ZKM statement surface while omitting only unavailable AFP-KDC fixture consumer claims; its statement_set_id digests the actual cryptographic surface, and scripts/check-zkm-statement-registry.py requires the family's pinned revision label to be at least last_breaking_revision, so a breaking revision the family has not followed fails ZKM's own gate.",
+  "public_projection": {
+    "format": "scanner-clean-public-projection-v1",
+    "canonical_registry_role": "ZKM-owned statement surface",
+    "unavailable_fixture_claims": "omitted"
+  },
+  "spec_version": "0.1.0-draft",
+  "revision": 13,
+  "revision_id": "zkm:rev:13",
+  "published": "2026-10-27",
+  "last_breaking_revision": 13,
+  "family_epoch": "zka:protocol-family:2026-11-19.1",
+  "statement_set_id": "sha256:f367e0504bcbbe4ca2a150f9c56a7640d5ed21bdb9dec1c1ce4acaa6e023ab49",
+  "statement_set_id_derivation": "sha256 over b\"zkm:statement-set:v1\" || canonical-JSON(preimage), where canonical JSON is UTF-8 with object keys sorted and no insignificant whitespace (RFC 8785 subset), and preimage is exactly {\"statements\": [...], \"retired_statements\": [...], \"revocation\": {...}, \"toolchain\": {...}} built by PROJECTING each member to a fixed field list, in this order, with absent fields serialized as null: statements -> [id, circuit_package, status, current_since_revision, supersedes, value_moving, public_input_count, public_inputs, vk_hash, acir_opcode_count, bytecode_sha256]; retired_statements -> [id, retired_in_revision, superseded_by, public_input_count, post_cutover_registry, reinterpretation]; revocation -> [scheme, construction, depth, accepted_scheme_values, superseded_scheme]; toolchain -> the whole object. Array order is preserved as published. Prose fields (note, reason, notes) are DELIBERATELY excluded: an editorial edit is not a protocol change, and an id that moved on prose would train reviewers to re-bless it. Recomputed on every CI run by scripts/check-zkm-statement-registry.py.",
+  "toolchain": {
+    "nargo": "1.0.0-beta.25",
+    "barretenberg": "5.0.0"
+  },
+  "revocation": {
+    "scheme": 2,
+    "construction": "full-identifier exclusion tree",
+    "depth": 254,
+    "leaf_binds": "the complete canonical BN254 root_id",
+    "public_input": "revocation_scheme",
+    "superseded_scheme": 1,
+    "superseded_construction": "depth-128 low-half root_id slot",
+    "accepted_scheme_values": [
+      2
+    ],
+    "migration_runbook": "docs/zkm_revocation_v2_migration.md",
+    "migration_tool": "scripts/migrate-revocation-v2.py"
+  },
+  "statements": [
+    {
+      "id": "zkm:mandate-only:v2",
+      "circuit_package": "zkm_mandate_transition",
+      "status": "current",
+      "current_since_revision": 10,
+      "supersedes": "zkm:mandate-only:v1",
+      "value_moving": false,
+      "public_input_count": 9,
+      "public_inputs": [
+        {
+          "index": 0,
+          "name": "kind",
+          "abi_type": "u8"
+        },
+        {
+          "index": 1,
+          "name": "nf",
+          "abi_type": "Field"
+        },
+        {
+          "index": 2,
+          "name": "cm_out_1",
+          "abi_type": "Field"
+        },
+        {
+          "index": 3,
+          "name": "cm_out_2",
+          "abi_type": "Field"
+        },
+        {
+          "index": 4,
+          "name": "mandate_root",
+          "abi_type": "Field"
+        },
+        {
+          "index": 5,
+          "name": "revocation_root",
+          "abi_type": "Field"
+        },
+        {
+          "index": 6,
+          "name": "revocation_scheme",
+          "abi_type": "u8"
+        },
+        {
+          "index": 7,
+          "name": "current_time",
+          "abi_type": "u64"
+        },
+        {
+          "index": 8,
+          "name": "settlement_context",
+          "abi_type": "Field"
+        }
+      ],
+      "vk_hash": "0b91505084261b9268790023c77c9557af3330b8e9a04dcf07b75e006842ee98",
+      "acir_opcode_count": 2185,
+      "bytecode_sha256": "0b64622eaade3eebe38e3dd9d98d96f50e184d75706d8ce993fce0973b076fe9",
+      "note": "Carries no ZKA value leg (no note root, no ZKA nullifier, no output commitments, no asset_id): that absence is what makes this key structurally incapable of authorizing value movement."
+    },
+    {
+      "id": "zkm:spend-conjoined:v2",
+      "circuit_package": "zkm_spend_conjoined",
+      "status": "current",
+      "current_since_revision": 10,
+      "supersedes": "zkm:spend-conjoined:v1",
+      "value_moving": true,
+      "public_input_count": 14,
+      "public_inputs": [
+        {
+          "index": 0,
+          "name": "kind",
+          "abi_type": "u8"
+        },
+        {
+          "index": 1,
+          "name": "nf",
+          "abi_type": "Field"
+        },
+        {
+          "index": 2,
+          "name": "cm_out_1",
+          "abi_type": "Field"
+        },
+        {
+          "index": 3,
+          "name": "cm_out_2",
+          "abi_type": "Field"
+        },
+        {
+          "index": 4,
+          "name": "mandate_root",
+          "abi_type": "Field"
+        },
+        {
+          "index": 5,
+          "name": "revocation_root",
+          "abi_type": "Field"
+        },
+        {
+          "index": 6,
+          "name": "revocation_scheme",
+          "abi_type": "u8"
+        },
+        {
+          "index": 7,
+          "name": "current_time",
+          "abi_type": "u64"
+        },
+        {
+          "index": 8,
+          "name": "settlement_context",
+          "abi_type": "Field"
+        },
+        {
+          "index": 9,
+          "name": "asset_id_pub",
+          "abi_type": "Field"
+        },
+        {
+          "index": 10,
+          "name": "zka_note_root",
+          "abi_type": "Field"
+        },
+        {
+          "index": 11,
+          "name": "zka_nullifier",
+          "abi_type": "Field"
+        },
+        {
+          "index": 12,
+          "name": "zka_cm_recipient",
+          "abi_type": "Field"
+        },
+        {
+          "index": 13,
+          "name": "zka_cm_change",
+          "abi_type": "Field"
+        }
+      ],
+      "vk_hash": "0b7d35cd871089d6f0dd2629a728427fc29659b55a8060118a16e30320fb34f1",
+      "acir_opcode_count": 2215,
+      "bytecode_sha256": "eacc196816e1ef27b732714304380874b0158341f8506383a3a21a3de7995d49",
+      "note": "The only value-moving ZKM statement. A settlement target's value-moving entry point MUST accept this key and no other."
+    },
+    {
+      "id": "zkm:possession:v1",
+      "circuit_package": "zkm_delegate_possession",
+      "status": "current",
+      "current_since_revision": 4,
+      "supersedes": null,
+      "value_moving": false,
+      "public_input_count": 3,
+      "public_inputs": [
+        {
+          "index": 0,
+          "name": "cm_successor",
+          "abi_type": "Field"
+        },
+        {
+          "index": 1,
+          "name": "nf",
+          "abi_type": "Field"
+        },
+        {
+          "index": 2,
+          "name": "settlement_context",
+          "abi_type": "Field"
+        }
+      ],
+      "vk_hash": "2194860ab13eb116ef5f2e6f27b92c1e7565cadbb742f237f976b16bf7baf18a",
+      "acir_opcode_count": 34,
+      "bytecode_sha256": "f504369fd201c0138936190582f1140fda13df95bc5f1445df8680afc7da55fa",
+      "note": "Delegation possession companion, matched at settlement on cm_out_1 / nf / settlement context."
+    },
+    {
+      "id": "zkm:issuance:v1",
+      "circuit_package": "zkm_issuance",
+      "status": "current",
+      "current_since_revision": 5,
+      "supersedes": null,
+      "value_moving": false,
+      "public_input_count": 2,
+      "public_inputs": [
+        {
+          "index": 0,
+          "name": "cm",
+          "abi_type": "Field"
+        },
+        {
+          "index": 1,
+          "name": "settlement_context",
+          "abi_type": "Field"
+        }
+      ],
+      "vk_hash": "2e1822f0075001abc11db03932d9786ba62f5370ae0cbd2760bac437fab0caa3",
+      "acir_opcode_count": 33,
+      "bytecode_sha256": "42a3a2959a7a30541f8d98ffafef73457c3a1919fc9776ba30f5d362403415e9",
+      "note": "Well-formed depth-0 insertion; every accepted leaf provably has a living revocation authority."
+    },
+    {
+      "id": "zkm:revocation-auth:v1",
+      "circuit_package": "zkm_revocation_auth",
+      "status": "current",
+      "current_since_revision": 6,
+      "supersedes": null,
+      "value_moving": false,
+      "public_input_count": 2,
+      "public_inputs": [
+        {
+          "index": 0,
+          "name": "root_id",
+          "abi_type": "Field"
+        },
+        {
+          "index": 1,
+          "name": "settlement_context",
+          "abi_type": "Field"
+        }
+      ],
+      "vk_hash": "018a6b96981489de7273ab6c5373e523e19f7a2f220f2a4a233c25366b50a654",
+      "acir_opcode_count": 10,
+      "bytecode_sha256": "400db0ccc075c346f920e14b521b2466a3a98b2fdff24800407abfd5c24be0ae",
+      "note": "The ONLY key a target may accept to authorize a revocation insertion. Its public vector IS the insertion authorization."
+    },
+    {
+      "id": "zkm:revocation-insertion:v1",
+      "circuit_package": "zkm_revocation_insertion",
+      "status": "current",
+      "current_since_revision": 13,
+      "supersedes": null,
+      "value_moving": false,
+      "public_input_count": 6,
+      "public_inputs": [
+        {
+          "index": 0,
+          "name": "root_id",
+          "abi_type": "Field"
+        },
+        {
+          "index": 1,
+          "name": "previous_root",
+          "abi_type": "Field"
+        },
+        {
+          "index": 2,
+          "name": "next_root",
+          "abi_type": "Field"
+        },
+        {
+          "index": 3,
+          "name": "revocation_scheme",
+          "abi_type": "u8"
+        },
+        {
+          "index": 4,
+          "name": "epoch",
+          "abi_type": "u64"
+        },
+        {
+          "index": 5,
+          "name": "settlement_context",
+          "abi_type": "Field"
+        }
+      ],
+      "vk_hash": "2ccd874af3c3eac2005a7f25c8150d3bc976094260da27b121d25a9f4d8c5379",
+      "acir_opcode_count": 2567,
+      "bytecode_sha256": "2734f736cae23dd450960a3db588bebdff50035061866821d72bb80d359c6e34",
+      "note": "Continuity companion only: empty-leaf previous_root and full-id next_root use the same canonical path and siblings. Requires separately verified revocation-auth:v1 with matching root_id and context; the target binds the current tip and epoch and commits insertion plus publication atomically."
+    },
+    {
+      "id": "zkm:control-attestation:v1",
+      "circuit_package": "zkm_control_attestation",
+      "status": "current",
+      "current_since_revision": 7,
+      "supersedes": null,
+      "value_moving": false,
+      "public_input_count": 3,
+      "public_inputs": [
+        {
+          "index": 0,
+          "name": "lineage_tag",
+          "abi_type": "Field"
+        },
+        {
+          "index": 1,
+          "name": "settlement_context",
+          "abi_type": "Field"
+        },
+        {
+          "index": 2,
+          "name": "disclosure_binding",
+          "abi_type": "Field"
+        }
+      ],
+      "vk_hash": "048caef435447318d1ff2fe6ade1b675ecca0df8633d96ea7429b81de39a48fe",
+      "acir_opcode_count": 19,
+      "bytecode_sha256": "2730d2279a8782d9057a5d8b59cab9e89e496d67a11e1831d4e71ebf9324592e",
+      "note": "Publishes NO root_id, so it cannot be replayed as a revocation authorization. A registry that maps this statement to the revocation-auth key destroys that property."
+    },
+    {
+      "id": "zkm:issuance-zkc:v1",
+      "circuit_package": "zkm_issuance_zkc",
+      "status": "current",
+      "current_since_revision": 9,
+      "supersedes": null,
+      "value_moving": false,
+      "public_input_count": 3,
+      "public_inputs": [
+        {
+          "index": 0,
+          "name": "cm",
+          "abi_type": "Field"
+        },
+        {
+          "index": 1,
+          "name": "settlement_context",
+          "abi_type": "Field"
+        },
+        {
+          "index": 2,
+          "name": "zkc_composition_binding",
+          "abi_type": "Field"
+        }
+      ],
+      "vk_hash": "1a189ea01a7572797b0af6b79448724886db1f880b9a0310d50460b1853683f3",
+      "acir_opcode_count": 75,
+      "bytecode_sha256": "8b48173b3a42aa4c6ce2ae31267021ce85648db91f283305d6a8e2c444120e5d",
+      "note": "Credential-bound issuance: same KDC entity seed derives the principal issuance key and the ZKC handle."
+    },
+    {
+      "id": "zkm:spend-zkc-binding:v1",
+      "circuit_package": "zkm_spend_zkc_binding",
+      "status": "current",
+      "current_since_revision": 9,
+      "supersedes": null,
+      "value_moving": false,
+      "public_input_count": 5,
+      "public_inputs": [
+        {
+          "index": 0,
+          "name": "nf",
+          "abi_type": "Field"
+        },
+        {
+          "index": 1,
+          "name": "zka_cm_recipient",
+          "abi_type": "Field"
+        },
+        {
+          "index": 2,
+          "name": "asset_id",
+          "abi_type": "Field"
+        },
+        {
+          "index": 3,
+          "name": "settlement_context",
+          "abi_type": "Field"
+        },
+        {
+          "index": 4,
+          "name": "zkc_composition_binding",
+          "abi_type": "Field"
+        }
+      ],
+      "vk_hash": "19b990f4ff4bfadc451a0390e1ac18eb3430b59f4fe0eadb6ab7829071e78128",
+      "acir_opcode_count": 65,
+      "bytecode_sha256": "4a7a0fbb7a46b4faf33234b0dea8d86c39b1ced54d45b9ad5cae1ac39cb573ed",
+      "note": "Non-settling companion. Acceptable only alongside a zkm:spend-conjoined:v2 proof matched atomically on nf, zka_cm_recipient, asset_id and settlement context. Rev 13 corrects the KDC seed -> spending key -> viewing key -> address chain. The v1 identifier and five public inputs retain their intended same-subject meaning; the rev-13 statement_set_id and corrected VK are mandatory compatibility pins, and pre-rev-13 VKs MUST be removed atomically. Retaining the identifier avoids an unrelated effect-profile allowlist/digest change."
+    }
+  ],
+  "retired_statements": [
+    {
+      "id": "zkm:mandate-only:v1",
+      "retired_in_revision": 10,
+      "superseded_by": "zkm:mandate-only:v2",
+      "public_input_count": 8,
+      "reason": "revocation_scheme added to the public vector; depth-128 low-half exclusion slot replaced by the depth-254 full-identifier tree; verification key re-blessed.",
+      "post_cutover_registry": "MUST omit",
+      "reinterpretation": "forbidden"
+    },
+    {
+      "id": "zkm:spend-conjoined:v1",
+      "retired_in_revision": 10,
+      "superseded_by": "zkm:spend-conjoined:v2",
+      "public_input_count": 13,
+      "reason": "revocation_scheme added to the public vector; depth-128 low-half exclusion slot replaced by the depth-254 full-identifier tree; verification key re-blessed.",
+      "post_cutover_registry": "MUST omit",
+      "reinterpretation": "forbidden"
+    }
+  ],
+  "revision_history": [
+    {
+      "revision": 10,
+      "published": "2026-08-14",
+      "breaking": true,
+      "statement_set_id": "sha256:a0c8aa61105627d2c3a5f9fdbc7e762901f1be54f1ef23e227039e43180b2515",
+      "summary": "v1 transition statements retired; revocation_scheme = 2 added to both transition vectors (13 -> 14 and 8 -> 9 elements); depth-128 low-half revocation slot replaced by the depth-254 full-identifier exclusion tree; every verification key re-blessed."
+    },
+    {
+      "revision": 11,
+      "published": "2026-08-15",
+      "breaking": false,
+      "statement_set_id": "sha256:a0c8aa61105627d2c3a5f9fdbc7e762901f1be54f1ef23e227039e43180b2515",
+      "summary": "This registry and the v1-to-v2 cutover note published. No statement, ABI, verification key or revocation scheme moved: the statement_set_id is unchanged from rev 10, which is exactly what a non-breaking revision is required to look like."
+    },
+    {
+      "revision": 12,
+      "published": "2026-09-08",
+      "breaking": true,
+      "statement_set_id": "sha256:e4604c92377ab121ab8834c1243935b77c32969d129564574f54e72ae55ecab7",
+      "summary": "Noir beta.22 -> beta.25 and Barretenberg 5.0.0-nightly.20260522 -> 5.0.0; all eight verification keys re-blessed. The mandate-transition and spend-conjoined ACIR/bytecode identities also moved; statement identifiers, public-input vectors, and revocation semantics are unchanged."
+    },
+    {
+      "revision": 13,
+      "published": "2026-10-27",
+      "breaking": true,
+      "statement_set_id": "sha256:f367e0504bcbbe4ca2a150f9c56a7640d5ed21bdb9dec1c1ce4acaa6e023ab49",
+      "summary": "Adds verified revocation insertion continuity and atomic ordered publication; corrects recipient derivation through the KDC spending key; requires positive private spends while retaining both outputs; corrects mandate-only policy-witness diagnostics. Public vectors, identifier lifecycle, revocation scheme and proving toolchain remain unchanged. The spend and recipient verification keys move; the mandate-only verification key is unchanged despite its diagnostic bytecode change. Consumers must atomically repin the combined statement set and remove earlier keys. The independent effect-profile identity is preserved."
+    }
+  ],
+  "version_discipline": {
+    "breaking_change": "Adding, retiring or renaming a statement identifier; changing any public-input vector (order, name, type or count); moving any verification key, ACIR opcode count or bytecode digest; changing the accepted revocation scheme; or moving the pinned toolchain.",
+    "rules": [
+      "A breaking change MUST append a revision_history entry whose statement_set_id differs from its predecessor's and whose breaking flag is true.",
+      "last_breaking_revision MUST equal the greatest revision whose revision_history entry is breaking.",
+      "A non-breaking revision MUST carry the predecessor's statement_set_id unchanged.",
+      "The family manifest MUST discriminate ZKM by at least one of a revision label in protocols.zkm.version or a sha256 pin of this file; a bare version string is not discrimination, and ZKM's gate fails closed on it even when this registry agrees with it.",
+      "A breaking revision MUST be followed by the family manifest: a pinned revision label MUST be at least last_breaking_revision, and MUST NOT name a revision ZKM has not published. ZKM's own gate fails closed while it is not, so a breaking ZKM revision cannot be silently combined with an epoch pinned to an older statement surface.",
+      "The family interface manifest SHOULD additionally pin this file by sha256 (artifact binding or projection assertion). The revision label discriminates revisions but is prose: it does not move when a verification key, public-input vector, bytecode digest or toolchain pin moves within a revision.",
+      "A consumer holding only a family epoch pin and a bare 0.1.0-draft version string, with no revision label and no digest, MUST treat ZKM's statement surface as unpinned and MUST NOT accept ZKM proofs on that basis."
+    ]
+  },
+  "family_pin": {
+    "declared_version": "0.1.0-draft (rev 13)",
+    "revision_label": {
+      "pinned": true,
+      "revision": 13,
+      "since_epoch": "zka:protocol-family:2026-10-26.1",
+      "note": "Epoch 2026-10-26.1 advances the revision label and statement-set identity together for the combined breaking rev 13. The published canonical snapshot names observed ZKA target merge b0f255e2340e8b0092422e50a3abac12cb452cec and closes the component-staging window; deployment adoption remains a separate reviewed atomic cutover."
+    },
+    "statement_digest": {
+      "pinned": true,
+      "pinned_by": "assertion:zkm-statement-set-id",
+      "pinned_since_epoch": "zka:protocol-family:2026-08-15.2",
+      "pin": {
+        "kind": "json_pointer_equals",
+        "path": "protocol-family/zkm-statement-registry-v1.json",
+        "pointer": "/statement_set_id"
+      },
+      "reason": "Pinned by the canonical family manifest's projections.zkm assertion zkm-statement-set-id, a json_pointer_equals on /statement_set_id of this file, enforced on every ZKM run by the shared family validator. This public snapshot supplies a scanner-clean projection of that manifest and lock, not a canonical-family mirror. scripts/check-zkm-statement-registry.py accepts three pin forms: an artifact_bindings entry for this path (whole-file sha256), a projections.zkm sha256_equals assertion on this path (whole-file sha256), or a projections.zkm json_pointer_equals assertion on /statement_set_id (field pin). The field pin is preferred over a whole-file digest: statement_set_id commits to every statement, ABI, verification-key, revocation and toolchain field but deliberately excludes prose (note/reason fields), so an editorial edit cannot break the family pin, whereas a whole-file digest moves on prose and would force a new family epoch plus consumer snapshot resyncs for every editorial change."
+    }
+  },
+  "consumer_gate": {
+    "description": "The checks a downstream consumer's own CI SHOULD execute against a ZKM checkout before accepting ZKM proofs at a settlement target.",
+    "commands": [
+      "python3 scripts/check-zkm-statement-registry.py",
+      "python3 scripts/validate_protocol_family.py validate --repo zkm --root .",
+      "python3 scripts/migrate-revocation-v2.py --self-test",
+      "bash noir/scripts/check-circuit-goldens.sh"
+    ],
+    "artifacts": [
+      "noir/scripts/goldens/circuits.txt",
+      "protocol-family/zkm-statement-registry-v1.json"
+    ]
+  }
+}

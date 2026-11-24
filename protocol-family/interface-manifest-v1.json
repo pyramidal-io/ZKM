@@ -1,0 +1,1212 @@
+{
+  "format": "zka:protocol-family:interfaces:v1",
+  "epoch": "zka:protocol-family:2026-11-19.1",
+  "authority": {
+    "repository": "pyramidal-io/ZKA.dev",
+    "manifest_path": "protocol-family/interface-manifest-v1.json",
+    "vector_path": "protocol-family/golden-vectors-v1.json",
+    "matrix_path": "protocol-family/compatibility-matrix.md",
+    "published_on": "2026-11-18"
+  },
+  "protocols": {
+    "zka": {
+      "version": "0.9.2-draft",
+      "state": "supported",
+      "owner": "pyramidal-io/ZKA.dev"
+    },
+    "zkc": {
+      "version": "0.4.1-draft",
+      "state": "supported",
+      "owner": "pyramidal-io/ZKC.dev"
+    },
+    "afp": {
+      "version": "0.3.14-draft",
+      "state": "supported",
+      "owner": "pyramidal-io/AFP.dev"
+    },
+    "kdc": {
+      "version": "1.0.3",
+      "state": "supported",
+      "owner": "pyramidal-io/AFP.dev"
+    },
+    "zkm": {
+      "version": "0.1.0-draft (rev 13)",
+      "state": "supported",
+      "owner": "pyramidal-io/ZKM.dev"
+    }
+  },
+  "toolchains": {
+    "zka": {
+      "nargo": "1.0.0-beta.25",
+      "barretenberg": "5.0.0"
+    },
+    "zkc": {
+      "nargo": "1.0.0-beta.21",
+      "barretenberg": "5.0.0-nightly.20260324"
+    },
+    "zkm": {
+      "nargo": "1.0.0-beta.25",
+      "barretenberg": "5.0.0"
+    }
+  },
+  "interfaces": {
+    "bundle": "zka:bundle:v1",
+    "afp_envelope": "afp:envelope:v1",
+    "afp_session_context_projection": {
+      "source": "afp:envelope:v1.session_context",
+      "source_encoding": "X_<64-lowercase-hex>",
+      "integer_encoding": "unsigned-big-endian",
+      "reduction": "mod-bn254-fr",
+      "zero": "reject",
+      "target_encoding": "0x<64-lowercase-hex>",
+      "targets": [
+        "zka:bundle:v1.metadata.context",
+        "zka:bundle:v1.transaction.publicInputs.context",
+        "zka:bundle:v1.coord_proof.receipt.context"
+      ]
+    },
+    "proof_envelopes": [
+      "zkc:proof:v1",
+      "zkc:proof:v2"
+    ],
+    "presentation_profiles": [
+      "zkc:presentation:anonymous:v1",
+      "zkc:presentation:linkable:v1",
+      "zkc:presentation:scoped:v1"
+    ],
+    "zkc_presentation_context_modes": [
+      "afp:zkc-presentation-context:v2"
+    ],
+    "afp_presentation_result": {
+      "required_members": [
+        "proof_context",
+        "credential_subject_aid",
+        "proven_predicates"
+      ],
+      "predicate_record": {
+        "required_members": [
+          "predicate_id",
+          "predicate_version",
+          "root_class",
+          "root_authority_identifier",
+          "attestation_window",
+          "subject_aid"
+        ],
+        "additional_members": "forbidden",
+        "optional_values": "explicit-null",
+        "comparison": "exact-full-record",
+        "comparison_scope": "verified-result-to-evidence-snapshot",
+        "duplicates": "reject-by-predicate-id",
+        "predicate_version": "must-match-trailing-id-version",
+        "attestation_window_encoding": {
+          "type": "object-or-null",
+          "required_members": [
+            "starts_at",
+            "ends_at"
+          ],
+          "timestamp": "whole-second-utc",
+          "ordering": "starts_at-before-ends_at"
+        },
+        "instance_attestation_v2": {
+          "predicate_id": "afp.telemetry.instance_attestation.v2",
+          "required_non_null_members": [
+            "root_class",
+            "root_authority_identifier",
+            "attestation_window",
+            "subject_aid"
+          ],
+          "root_classes": [
+            "root:build-provenance",
+            "root:tee-attestation",
+            "root:publisher-manifest"
+          ],
+          "root_policy": "exact-class-authority-pair"
+        },
+        "non_instance_attestation_root_fields": "must-be-null"
+      },
+      "required_predicate_policy": {
+        "location": "afp.required_predicate_policy",
+        "result_member": false,
+        "required_members": [
+          "accepted_predicate_ids",
+          "required_predicate_ids",
+          "accepted_instance_attestation_roots"
+        ],
+        "accepted_predicate_ids": "nonempty-unique-sorted-array",
+        "required_predicate_ids": "unique-sorted-subset-of-accepted",
+        "accepted_instance_attestation_roots": "unique-sorted-exact-class-authority-pairs",
+        "instance_attestation_root_biconditional": true
+      },
+      "predicate_field_classification": {
+        "predicate_id": "bound",
+        "predicate_version": "bound",
+        "root_class": "bound",
+        "root_authority_identifier": "bound",
+        "attestation_window": "free",
+        "subject_aid": "free"
+      },
+      "subject_assurance": {
+        "non_result_metadata": true,
+        "basis": [
+          "issuer-authenticated-aid-claim",
+          "verified-companion-subject-binding-proof"
+        ]
+      },
+      "telemetry_fixture_predicates": [
+        "afp.telemetry.instance_attestation.v2"
+      ],
+      "generic_zkc_predicates_are_insufficient": true
+    },
+    "binding_circuits": [
+      "zka_transfer_binding",
+      "zka_transfer_binding_v2"
+    ],
+    "zka_transfer_binding_v2_public_inputs": [
+      "nullifier",
+      "output_commitment",
+      "merkle_root",
+      "context",
+      "presentation_pseudonym",
+      "scope_id"
+    ],
+    "zkc_kyc_v2_public_inputs": [
+      "presentation_pseudonym",
+      "scope_id",
+      "claim_binding",
+      "proof_context",
+      "accumulator_root",
+      "accumulator_epoch",
+      "timestamp",
+      "current_epoch",
+      "issuer_public_key_x",
+      "issuer_public_key_y"
+    ]
+  },
+  "domains": [
+    {
+      "tag": "zka/spending",
+      "owner": "KDC",
+      "class": "derivation",
+      "field_hex": "0x14046af3b2a955bb4c450d1b53ffc2798acc3c2924c3519cf923146b775acc67"
+    },
+    {
+      "tag": "zka/viewing",
+      "owner": "KDC",
+      "class": "derivation",
+      "field_hex": "0x041a8f7dfa88f8b20fd899a83e0bce075c65856e12e7706113f0b326a9b13eff"
+    },
+    {
+      "tag": "zka/proof",
+      "owner": "KDC",
+      "class": "derivation",
+      "field_hex": "0x193befdd9db847abcc0c6412a4044f4ce9b378786241eab30fbb50b9faaad2d7"
+    },
+    {
+      "tag": "zka/address",
+      "owner": "KDC",
+      "class": "derivation",
+      "field_hex": "0x001b916d980f2edf145af8615825a58890f9ff48dc7c0fa92ed14fe0cd5e5fb8"
+    },
+    {
+      "tag": "zkc/credential",
+      "owner": "KDC",
+      "class": "derivation",
+      "field_hex": "0x3010b194aeae94550e7a48d065d9dc931108c2d15136704bf4ad78eae07f0e26"
+    },
+    {
+      "tag": "zkc/binding",
+      "owner": "KDC",
+      "class": "derivation",
+      "field_hex": "0x12b8b6de2c8fc6b63102155d15c31799845a1f360ab0df6266284bde48e3a93f"
+    },
+    {
+      "tag": "zka/nullifier",
+      "owner": "ZKA",
+      "class": "operational",
+      "field_hex": "0x2e03b47965736082429061ee83eba139ece5ee1c8f30983b4d5a54ac8e18c1eb"
+    },
+    {
+      "tag": "zka/note",
+      "owner": "ZKA",
+      "class": "operational",
+      "field_hex": "0x09a4260bf4256607461da644a2ee12d3e78c2aafb37427a010b4f3c7e021a72e"
+    },
+    {
+      "tag": "zka/asset",
+      "owner": "ZKA",
+      "class": "operational",
+      "field_hex": "0x078574d1857e778c075008cf155293bda6a75e7146a12a32692271782baf7d30"
+    },
+    {
+      "tag": "zka/commitment",
+      "owner": "ZKA",
+      "class": "operational",
+      "field_hex": "0x0d574a2db0485ef65bee07d885fc5874f66989c7f56a1b6750fac9fcfb5d11c9"
+    },
+    {
+      "tag": "zkc/claim",
+      "owner": "ZKC",
+      "class": "operational",
+      "field_hex": "0x0b929496a58d5a41cba03a3302b92f5d7781ad2913285aec7a5431647c50c9d4"
+    },
+    {
+      "tag": "zkc/context",
+      "owner": "ZKC",
+      "class": "operational",
+      "field_hex": "0x215e018458623e55aad0c8f295d2a81f32969c3d5a73379f2c48c17741e19117"
+    },
+    {
+      "tag": "zkc/purpose",
+      "owner": "ZKC",
+      "class": "operational",
+      "field_hex": "0x2efb6bb9f75d0391d484733fada7a178b0f1b29a4e48b6e9672c0ebe3de16f17"
+    },
+    {
+      "tag": "zkc/apr",
+      "owner": "ZKC",
+      "class": "operational",
+      "field_hex": "0x19acbf96f3eaea4d208d50c90aa1ad9e583942c84ff4d8b5ac62b697e0950c3c"
+    },
+    {
+      "tag": "zkc/receipt",
+      "owner": "ZKC",
+      "class": "operational",
+      "field_hex": "0x125c2e5494b527e4e895a11c3802fabc9235adc22263e44a754c1e2e18638b12"
+    },
+    {
+      "tag": "zkc/presentation-scope:v1",
+      "owner": "ZKC",
+      "class": "operational",
+      "field_hex": "0x2f7a94a38bb647d343fc7abc74b6466fe1eb566d71c185cc9537b7e768c466ae"
+    },
+    {
+      "tag": "zkc/scope:v1",
+      "owner": "ZKC",
+      "class": "operational",
+      "field_hex": "0x1c13e7e880b812ceb034a7c8fe48b3cd9a518882ef7609b603e8a0db1c2cf817"
+    },
+    {
+      "tag": "zkc/verifier-id:v1",
+      "owner": "ZKC",
+      "class": "operational",
+      "field_hex": "0x10e11268c72c7b6cf64a0e9e71423f21e8bb294ec386eda6f3b3e3abdf0d0357"
+    }
+  ],
+  "invariants": {
+    "freedom_safeguard_count": 6,
+    "frozen_v1_bytes": true,
+    "operator_blindness": "preserved",
+    "negotiation": "exactly-one-match-fail-closed",
+    "dependency_edges": [
+      "afp->kdc",
+      "afp->zka",
+      "afp->zkc",
+      "zka->kdc",
+      "zkc->kdc",
+      "zkm->kdc",
+      "zkm->zka",
+      "zkm->zkc"
+    ]
+  },
+  "compatibility": [
+    {
+      "id": "linkable-v1-payment",
+      "zka": "0.9.2-draft",
+      "zkc": "0.4.1-draft",
+      "afp": "0.3.14-draft",
+      "kdc": "1.0.3",
+      "zkm": "0.1.0-draft (rev 13)",
+      "bundle": "zka:bundle:v1",
+      "proof": "zkc:proof:v1",
+      "profile": "zkc:presentation:linkable:v1",
+      "binding_circuit": "zka_transfer_binding",
+      "transaction": "required",
+      "presentation_context_mode": "afp:zkc-presentation-context:v2",
+      "state": "supported"
+    },
+    {
+      "id": "linkable-v1-coordination",
+      "zka": "0.9.2-draft",
+      "zkc": "0.4.1-draft",
+      "afp": "0.3.14-draft",
+      "kdc": "1.0.3",
+      "zkm": "0.1.0-draft (rev 13)",
+      "bundle": "zka:bundle:v1",
+      "proof": "zkc:proof:v1",
+      "profile": "zkc:presentation:linkable:v1",
+      "binding_circuit": null,
+      "transaction": "forbidden",
+      "presentation_context_mode": "afp:zkc-presentation-context:v2",
+      "state": "supported"
+    },
+    {
+      "id": "anonymous-v2-coordination",
+      "zka": "0.9.2-draft",
+      "zkc": "0.4.1-draft",
+      "afp": "0.3.14-draft",
+      "kdc": "1.0.3",
+      "zkm": "0.1.0-draft (rev 13)",
+      "bundle": "zka:bundle:v1",
+      "proof": "zkc:proof:v2",
+      "profile": "zkc:presentation:anonymous:v1",
+      "binding_circuit": null,
+      "transaction": "forbidden",
+      "presentation_context_mode": "afp:zkc-presentation-context:v2",
+      "state": "supported"
+    },
+    {
+      "id": "scoped-v2-coordination",
+      "zka": "0.9.2-draft",
+      "zkc": "0.4.1-draft",
+      "afp": "0.3.14-draft",
+      "kdc": "1.0.3",
+      "zkm": "0.1.0-draft (rev 13)",
+      "bundle": "zka:bundle:v1",
+      "proof": "zkc:proof:v2",
+      "profile": "zkc:presentation:scoped:v1",
+      "binding_circuit": null,
+      "transaction": "forbidden",
+      "presentation_context_mode": "afp:zkc-presentation-context:v2",
+      "state": "supported"
+    },
+    {
+      "id": "scoped-v2-payment",
+      "zka": "0.9.2-draft",
+      "zkc": "0.4.1-draft",
+      "afp": "0.3.14-draft",
+      "kdc": "1.0.3",
+      "zkm": "0.1.0-draft (rev 13)",
+      "bundle": "zka:bundle:v1",
+      "proof": "zkc:proof:v2",
+      "profile": "zkc:presentation:scoped:v1",
+      "binding_circuit": "zka_transfer_binding_v2",
+      "transaction": "required",
+      "presentation_context_mode": "afp:zkc-presentation-context:v2",
+      "state": "supported"
+    }
+  ],
+  "artifact_bindings": [
+    {
+      "id": "zka-bundle-schema",
+      "repository": "zka",
+      "path": "schemas/compliance-bundle-v1.schema.json",
+      "sha256": "sha256:fbe249ee089d9d22111ac2f3c7536ee859185ff4693608b44bd101102b78e49e"
+    },
+    {
+      "id": "zka-binding-v2-public-inputs",
+      "repository": "zka",
+      "path": "schemas/public-inputs/zka_transfer_binding_v2.json",
+      "sha256": "sha256:b4650c9dce364e9a9cc8b732ac64f8d74d741c68e278f90a3278bdad46d43238"
+    },
+    {
+      "id": "zka-presentation-kat",
+      "repository": "zka",
+      "path": "tests/vectors/crypto/zkc_presentation_binding.json",
+      "sha256": "sha256:ca7b10e0f7c753834eba61d1cc83329cb54cb2d53865d941e9b4c5a05d50cceb"
+    },
+    {
+      "id": "zka-poseidon2-operational-domains-v1",
+      "repository": "zka",
+      "path": "protocol-family/poseidon2-operational-domains-v1.json",
+      "sha256": "sha256:37bbb8adc2ec2fe139f6b539b3b961c4c5b8d53407a717c7941ae2232b40cd15"
+    },
+    {
+      "id": "afp-zka-poseidon2-operational-domains-v1",
+      "repository": "afp",
+      "path": "protocol-family/poseidon2-operational-domains-v1.json",
+      "sha256": "sha256:37bbb8adc2ec2fe139f6b539b3b961c4c5b8d53407a717c7941ae2232b40cd15"
+    },
+    {
+      "id": "zka-pay-interaction-context-kat-v1",
+      "repository": "zka",
+      "path": "src/zka-sdk/tests/fixtures/interaction_context_kat.json",
+      "sha256": "sha256:e0d7fd0442b3cfd14c21c949ae13bcf9fba4250b2067300f729aaad2d38a2a8d"
+    },
+    {
+      "id": "afp-pay-interaction-context-kat-v1",
+      "repository": "afp",
+      "path": "docs/pay_interaction_context_kat_v1.json",
+      "sha256": "sha256:e0d7fd0442b3cfd14c21c949ae13bcf9fba4250b2067300f729aaad2d38a2a8d"
+    },
+    {
+      "id": "afp-payment-venue-v2-conformance",
+      "repository": "afp",
+      "path": "docs/payment_venue_v2_conformance.json",
+      "sha256": "sha256:f16faf6bcc57cd625eb967c620bafaec59f9bae96c5380c5f4590769e706618b"
+    },
+    {
+      "id": "afp-credential-envelope-v1-schema",
+      "repository": "afp",
+      "path": "schemas/afp-credential-envelope-v1.schema.json",
+      "sha256": "sha256:9721e1e7de0a54b555b5ed011ade168220c8df9f505127e2039bec98856f5cad"
+    },
+    {
+      "id": "afp-kdc-v1-0-3-domain-registry",
+      "repository": "afp",
+      "path": "docs/kdc_v1_0_3_domain_registry.json",
+      "sha256": "sha256:23a4ecf8057b86a334079225fb5fb2cce4c7f7484aa60125aa5f29d5dba5a64f"
+    },
+    {
+      "id": "afp-kdc-v1-0-2-poseidon2-parameters",
+      "repository": "afp",
+      "path": "docs/kdc_v1_0_2_poseidon2_parameters.json",
+      "sha256": "sha256:44587b845333d26159c823b0629da1b46352b12a69131df95fe549325030dc21"
+    },
+    {
+      "id": "afp-kdc-v1-0-2-conformance-vectors",
+      "repository": "afp",
+      "path": "docs/kdc_v1_0_2_conformance_vectors.json",
+      "sha256": "sha256:61e6a3770e2a8c4637f62bd3683fc5341c3fe3c7edcc2e3c85c1eefe7e714262"
+    },
+    {
+      "id": "zkc-envelope-v1-schema",
+      "repository": "zkc",
+      "path": "schemas/compliance-proof-v1.schema.json",
+      "sha256": "sha256:5e64fc61ce02a4ed9ffade43aea0ba7cbbf11ba542ac91f1a9642242b6e59d1f"
+    },
+    {
+      "id": "zkc-envelope-v2-schema",
+      "repository": "zkc",
+      "path": "schemas/compliance-proof-v2.schema.json",
+      "sha256": "sha256:4862c998a7e4f4b28741e6617f3974c65c9807652af8a0452e529e50a54cf6bf"
+    },
+    {
+      "id": "zkc-kyc-v2-public-inputs",
+      "repository": "zkc",
+      "path": "schemas/public-inputs/zkc_kyc_v2.json",
+      "sha256": "sha256:a1a483df6294596315102083036f01d36e936a919a431603188c253c180f71b8"
+    }
+  ],
+  "projections": {
+    "zka": {
+      "assertions": [
+        {
+          "id": "zka-spec-version",
+          "kind": "text_contains",
+          "path": "docs/zka_specification.md",
+          "expected": "**Version:** 0.9.2-draft"
+        },
+        {
+          "id": "zka-spec-family-epoch",
+          "kind": "text_contains",
+          "path": "docs/zka_specification.md",
+          "expected": "zka:protocol-family:2026-11-19.1"
+        },
+        {
+          "id": "zka-toolchain-nargo",
+          "kind": "text_contains",
+          "path": ".noir-version",
+          "expected": "NARGO_VERSION=1.0.0-beta.25"
+        },
+        {
+          "id": "zka-toolchain-barretenberg",
+          "kind": "text_contains",
+          "path": ".noir-version",
+          "expected": "BB_VERSION=5.0.0"
+        },
+        {
+          "id": "zka-authenticated-context-split",
+          "kind": "text_contains",
+          "path": "docs/zka_specification.md",
+          "expected": "**Authenticated context split is mandatory.**"
+        },
+        {
+          "id": "zka-afp-presentation-context-selector",
+          "kind": "text_contains",
+          "path": "docs/zka_specification.md",
+          "expected": "afp:zkc-presentation-context:v2"
+        },
+        {
+          "id": "zka-family-migration-note",
+          "kind": "path_exists",
+          "path": "docs/ZKA_ZKC_AFP_MIGRATION.md"
+        },
+        {
+          "id": "zka-v1-envelope",
+          "kind": "text_contains",
+          "path": "docs/zka_specification.md",
+          "expected": "zkc:proof:v1"
+        },
+        {
+          "id": "zka-v2-envelope",
+          "kind": "text_contains",
+          "path": "docs/zka_specification.md",
+          "expected": "zkc:proof:v2"
+        },
+        {
+          "id": "zka-zkm-spend-conjoined-statement",
+          "kind": "text_contains",
+          "path": "docs/zka_specification.md",
+          "expected": "`zkm:spend-conjoined:v2`"
+        },
+        {
+          "id": "zka-zkm-mandate-only-statement",
+          "kind": "text_contains",
+          "path": "docs/zka_specification.md",
+          "expected": "`zkm:mandate-only:v2`"
+        },
+        {
+          "id": "zka-zkm-spend-abi-arity",
+          "kind": "text_contains",
+          "path": "docs/zka_specification.md",
+          "expected": "The spend-conjoined public vector is exactly 14 BN254 field elements"
+        },
+        {
+          "id": "zka-zkm-mandate-abi-arity",
+          "kind": "text_contains",
+          "path": "docs/zka_specification.md",
+          "expected": "9-element ABI"
+        },
+        {
+          "id": "zka-zkm-revocation-scheme",
+          "kind": "text_contains",
+          "path": "docs/zka_specification.md",
+          "expected": "`revocationScheme` MUST equal `2`"
+        },
+        {
+          "id": "zka-zkm-settlement-contract-statements",
+          "kind": "text_contains",
+          "path": "contracts/ethereum/ZKMAtomicSettlement.sol",
+          "expected": "keccak256(\"zkm:spend-conjoined:v2\")"
+        },
+        {
+          "id": "zka-zkm-sdk-statements",
+          "kind": "text_contains",
+          "path": "src/zka-sdk/src/zkm/mod.rs",
+          "expected": "Self::SpendConjoined => \"zkm:spend-conjoined:v2\""
+        },
+        {
+          "id": "zka-bundle-schema-digest",
+          "kind": "sha256_equals",
+          "path": "schemas/compliance-bundle-v1.schema.json",
+          "expected": "sha256:fbe249ee089d9d22111ac2f3c7536ee859185ff4693608b44bd101102b78e49e"
+        },
+        {
+          "id": "zka-binding-v2-input-order",
+          "kind": "json_array_equals",
+          "path": "schemas/public-inputs/zka_transfer_binding_v2.json",
+          "pointer": "/publicInputs",
+          "expected": [
+            {
+              "index": 0,
+              "offset": 0,
+              "name": "nullifier",
+              "abiType": "Field",
+              "fieldElements": 1,
+              "description": "Spent-note nullifier"
+            },
+            {
+              "index": 1,
+              "offset": 1,
+              "name": "output_commitment",
+              "abiType": "Field",
+              "fieldElements": 1,
+              "description": "Output note commitment"
+            },
+            {
+              "index": 2,
+              "offset": 2,
+              "name": "merkle_root",
+              "abiType": "Field",
+              "fieldElements": 1,
+              "description": "Input-note state-tree anchor"
+            },
+            {
+              "index": 3,
+              "offset": 3,
+              "name": "context",
+              "abiType": "Field",
+              "fieldElements": 1,
+              "description": "Replay-protection context, including AFP session context when carried by AFP"
+            },
+            {
+              "index": 4,
+              "offset": 4,
+              "name": "presentation_pseudonym",
+              "abiType": "Field",
+              "fieldElements": 1,
+              "description": "ZKC v0.4 scoped pseudonym derived from the private credential-binding key"
+            },
+            {
+              "index": 5,
+              "offset": 5,
+              "name": "scope_id",
+              "abiType": "Field",
+              "fieldElements": 1,
+              "description": "Non-zero ZKC presentation scope; anonymous profile is not valid for a payment binding"
+            }
+          ]
+        },
+        {
+          "id": "zka-presentation-kat-digest",
+          "kind": "sha256_equals",
+          "path": "tests/vectors/crypto/zkc_presentation_binding.json",
+          "expected": "sha256:ca7b10e0f7c753834eba61d1cc83329cb54cb2d53865d941e9b4c5a05d50cceb"
+        }
+      ],
+      "vector_cases": [
+        "linkable-v1-accepted",
+        "anonymous-v2-coord-accepted",
+        "scoped-v2-payment-accepted",
+        "context-mismatch",
+        "profile-envelope-mismatch",
+        "scope-mismatch",
+        "subject-mismatch",
+        "session-replay",
+        "payment-binding-without-transaction",
+        "unknown-version",
+        "ambiguous-version",
+        "empty-coordination-bundle",
+        "presentation-purpose-context-mismatch",
+        "verified-subject-mismatch",
+        "presentation-meaning-mismatch",
+        "presentation-empty-predicate-set",
+        "presentation-flow-relabel",
+        "instance-attestation-unknown-root-class",
+        "instance-attestation-unaccepted-root",
+        "instance-attestation-missing-window",
+        "instance-attestation-missing-subject"
+      ]
+    },
+    "afp": {
+      "assertions": [
+        {
+          "id": "afp-spec-version",
+          "kind": "text_contains",
+          "path": "docs/afp_specification.md",
+          "expected": "**Version:** 0.3.14-draft"
+        },
+        {
+          "id": "afp-spec-family-epoch",
+          "kind": "text_contains",
+          "path": "docs/afp_specification.md",
+          "expected": "zka:protocol-family:2026-11-19.1"
+        },
+        {
+          "id": "afp-spec-zka-target",
+          "kind": "text_contains",
+          "path": "docs/afp_specification.md",
+          "expected": "This specification targets **ZKA v0.9.2-draft**, **ZKC v0.4.1-draft**, and **AFP-KDC v1.0.3**."
+        },
+        {
+          "id": "afp-zkc-presentation-context-selector",
+          "kind": "text_contains",
+          "path": "docs/afp_specification.md",
+          "expected": "afp:zkc-presentation-context:v2"
+        },
+        {
+          "id": "afp-interface-surface",
+          "kind": "path_exists",
+          "path": "protocol-family/afp-interface-surface-v1.json"
+        },
+        {
+          "id": "afp-interface-family-epoch",
+          "kind": "json_pointer_equals",
+          "path": "protocol-family/afp-interface-surface-v1.json",
+          "pointer": "/family_epoch",
+          "expected": "zka:protocol-family:2026-11-19.1"
+        },
+        {
+          "id": "afp-interface-set-id",
+          "kind": "json_pointer_equals",
+          "path": "protocol-family/afp-interface-surface-v1.json",
+          "pointer": "/interface_set_id",
+          "expected": "sha256:040269ba4b222b742d46faac2b82650894ab87707f104613620ac21f3fd427e5"
+        },
+        {
+          "id": "afp-pay-venue-descriptor",
+          "kind": "text_contains",
+          "path": "docs/afp_specification.md",
+          "expected": "### 15.9 Venue-neutral payment profile (`pay_venue`) v2.0"
+        },
+        {
+          "id": "afp-pay-venue-policy-v2",
+          "kind": "text_contains",
+          "path": "docs/afp_specification.md",
+          "expected": "'afp:payment-policy:v2'"
+        },
+        {
+          "id": "afp-pay-venue-quote-v2",
+          "kind": "text_contains",
+          "path": "docs/afp_specification.md",
+          "expected": "'afp:payment-quote:v2'"
+        },
+        {
+          "id": "afp-pay-venue-receipt-v2",
+          "kind": "text_contains",
+          "path": "docs/afp_specification.md",
+          "expected": "'afp:payment-receipt:v2'"
+        },
+        {
+          "id": "afp-payment-venue-v2-conformance-digest",
+          "kind": "sha256_equals",
+          "path": "docs/payment_venue_v2_conformance.json",
+          "expected": "sha256:f16faf6bcc57cd625eb967c620bafaec59f9bae96c5380c5f4590769e706618b"
+        },
+        {
+          "id": "afp-presentation-classification-format",
+          "kind": "json_pointer_equals",
+          "path": "docs/afp_presentation_public_input_classification_v1.json",
+          "pointer": "/format",
+          "expected": "afp:presentation-public-input-classification:v1"
+        },
+        {
+          "id": "afp-predicate-field-classification",
+          "kind": "json_array_equals",
+          "path": "docs/afp_presentation_public_input_classification_v1.json",
+          "pointer": "/predicate_fields",
+          "expected": [
+            {
+              "field": "predicate_id",
+              "classification": "bound",
+              "comparand": "required_predicates.accepted_predicate_ids, required_predicate_ids, and the closed section 6.3 catalog on the telemetry flow",
+              "spec_reference": "6.3, 14.4",
+              "rationale": "What was proven, matched against what the flow requires and accepts."
+            },
+            {
+              "field": "predicate_version",
+              "classification": "bound",
+              "comparand": "the version token of predicate_id",
+              "spec_reference": "6.3, 6.3.1",
+              "rationale": "Bound at construction so that an unsupported predicate version is detectable rather than a free label."
+            },
+            {
+              "field": "root_class",
+              "classification": "bound",
+              "comparand": "required_predicates.accepted_instance_attestation_roots and the three literal section 6.3.1 root classes",
+              "spec_reference": "6.3.1, 14.4",
+              "rationale": "An unknown class is rejected. Only instance attestation v2 may carry one: section 6.3.1 freezes v1 semantically, so a v1 proof must not be reinterpreted as carrying a generic root class. The section 14.4 comparison keys on the predicate identifier rather than on whether a root is present, so a v2 attestation that names no root class is rejected rather than skipped."
+            },
+            {
+              "field": "root_authority_identifier",
+              "classification": "bound",
+              "comparand": "required_predicates.accepted_instance_attestation_roots",
+              "spec_reference": "14.4",
+              "rationale": "The pair must exactly match one signed accepted pair. Resolving that authority's key state, delegation chain, and revocation from its KEL is a separate section 6.3.1 obligation, discharged at the introduction tier only when a root_authority_resolver is supplied."
+            },
+            {
+              "field": "attestation_window",
+              "classification": "free",
+              "comparand": null,
+              "spec_reference": "6.3.1, 14.3",
+              "rationale": "Validated for canonical whole-second UTC shape and ordering at construction, but the presentation seam holds no authenticated window to compare it against. The introduction tier binds it: evaluate_credentialing requires it to equal the introduction request's explicit window."
+            },
+            {
+              "field": "subject_aid",
+              "classification": "free",
+              "comparand": null,
+              "spec_reference": "6.3.1",
+              "rationale": "Required to be present for instance attestation, but not compared at the presentation seam. The introduction tier binds it to the presenting tenant."
+            }
+          ]
+        },
+        {
+          "id": "afp-kdc-registry-digest",
+          "kind": "sha256_equals",
+          "path": "docs/kdc_v1_0_3_domain_registry.json",
+          "expected": "sha256:23a4ecf8057b86a334079225fb5fb2cce4c7f7484aa60125aa5f29d5dba5a64f"
+        },
+        {
+          "id": "afp-anonymous-profile",
+          "kind": "text_contains",
+          "path": "docs/afp_specification.md",
+          "expected": "zkc:presentation:anonymous:v1"
+        },
+        {
+          "id": "afp-scoped-profile",
+          "kind": "text_contains",
+          "path": "docs/afp_specification.md",
+          "expected": "zkc:presentation:scoped:v1"
+        }
+      ],
+      "vector_cases": [
+        "linkable-v1-accepted",
+        "anonymous-v2-coord-accepted",
+        "scoped-v2-payment-accepted",
+        "context-mismatch",
+        "profile-envelope-mismatch",
+        "scope-mismatch",
+        "subject-mismatch",
+        "session-replay",
+        "payment-binding-without-transaction",
+        "unknown-version",
+        "ambiguous-version",
+        "empty-coordination-bundle",
+        "presentation-purpose-context-mismatch",
+        "verified-subject-mismatch",
+        "presentation-meaning-mismatch",
+        "presentation-empty-predicate-set",
+        "presentation-flow-relabel",
+        "instance-attestation-unknown-root-class",
+        "instance-attestation-unaccepted-root",
+        "instance-attestation-missing-window",
+        "instance-attestation-missing-subject"
+      ]
+    },
+    "zkc": {
+      "assertions": [
+        {
+          "id": "zkc-spec-version",
+          "kind": "text_contains",
+          "path": "docs/zkc_specification.md",
+          "expected": "**Version:** 0.4.1-draft"
+        },
+        {
+          "id": "zkc-spec-family-epoch",
+          "kind": "text_contains",
+          "path": "docs/zkc_specification.md",
+          "expected": "zka:protocol-family:2026-11-19.1"
+        },
+        {
+          "id": "zkc-historical-toolchain-map-nargo",
+          "kind": "json_pointer_equals",
+          "path": "noir/toolchains.json",
+          "pointer": "/toolchains/historical/nargo",
+          "expected": "1.0.0-beta.21"
+        },
+        {
+          "id": "zkc-historical-toolchain-map-noirc",
+          "kind": "json_pointer_equals",
+          "path": "noir/toolchains.json",
+          "pointer": "/toolchains/historical/noirc",
+          "expected": "1.0.0-beta.21+89a0f0faf3a5f1273c8ac4843b7877882437e277"
+        },
+        {
+          "id": "zkc-historical-toolchain-map-bb",
+          "kind": "json_pointer_equals",
+          "path": "noir/toolchains.json",
+          "pointer": "/toolchains/historical/bb",
+          "expected": "5.0.0-nightly.20260324"
+        },
+        {
+          "id": "zkc-historical-toolchain-nargo",
+          "kind": "text_contains",
+          "path": ".noir-version",
+          "expected": "HISTORICAL_NARGO_VERSION=1.0.0-beta.21"
+        },
+        {
+          "id": "zkc-historical-toolchain-bb",
+          "kind": "text_contains",
+          "path": ".noir-version",
+          "expected": "HISTORICAL_BB_VERSION=5.0.0-nightly.20260324"
+        },
+        {
+          "id": "zkc-successor-toolchain-map-nargo",
+          "kind": "json_pointer_equals",
+          "path": "noir/toolchains.json",
+          "pointer": "/toolchains/successor/nargo",
+          "expected": "1.0.0-beta.25"
+        },
+        {
+          "id": "zkc-successor-toolchain-map-noirc",
+          "kind": "json_pointer_equals",
+          "path": "noir/toolchains.json",
+          "pointer": "/toolchains/successor/noirc",
+          "expected": "1.0.0-beta.25+75061fab15986eedee4e7d9104ff87dd9fa4ca10"
+        },
+        {
+          "id": "zkc-successor-toolchain-map-bb",
+          "kind": "json_pointer_equals",
+          "path": "noir/toolchains.json",
+          "pointer": "/toolchains/successor/bb",
+          "expected": "5.0.0"
+        },
+        {
+          "id": "zkc-successor-toolchain-nargo",
+          "kind": "text_contains",
+          "path": ".noir-version",
+          "expected": "SUCCESSOR_NARGO_VERSION=1.0.0-beta.25"
+        },
+        {
+          "id": "zkc-successor-toolchain-bb",
+          "kind": "text_contains",
+          "path": ".noir-version",
+          "expected": "SUCCESSOR_BB_VERSION=5.0.0"
+        },
+        {
+          "id": "zkc-kyc-v2-toolchain-lanes",
+          "kind": "json_array_equals",
+          "path": "noir/toolchains.json",
+          "pointer": "/packages/zkc_kyc_v2",
+          "expected": [
+            "historical",
+            "successor"
+          ]
+        },
+        {
+          "id": "zkc-spec-zka-target",
+          "kind": "text_contains",
+          "path": "docs/zkc_specification.md",
+          "expected": "transaction-absent ZKA v0.9.2-draft work-attestation bundle"
+        },
+        {
+          "id": "zkc-envelope-v1-digest",
+          "kind": "sha256_equals",
+          "path": "schemas/compliance-proof-v1.schema.json",
+          "expected": "sha256:5e64fc61ce02a4ed9ffade43aea0ba7cbbf11ba542ac91f1a9642242b6e59d1f"
+        },
+        {
+          "id": "zkc-envelope-v2-digest",
+          "kind": "sha256_equals",
+          "path": "schemas/compliance-proof-v2.schema.json",
+          "expected": "sha256:4862c998a7e4f4b28741e6617f3974c65c9807652af8a0452e529e50a54cf6bf"
+        },
+        {
+          "id": "zkc-kyc-v2-input-order",
+          "kind": "json_array_equals",
+          "path": "schemas/public-inputs/zkc_kyc_v2.json",
+          "pointer": "/publicInputs",
+          "expected": [
+            {
+              "index": 0,
+              "offset": 0,
+              "name": "presentation_pseudonym",
+              "abiType": "Field",
+              "fieldElements": 1,
+              "description": "H(\"zkc/presentation-scope:v1\", cbk, scopeId), or 0 under the anonymous profile"
+            },
+            {
+              "index": 1,
+              "offset": 1,
+              "name": "scope_id",
+              "abiType": "Field",
+              "fieldElements": 1,
+              "description": "Verifier/protocol scope, 0 = anonymous sentinel"
+            },
+            {
+              "index": 2,
+              "offset": 2,
+              "name": "claim_binding",
+              "abiType": "Field",
+              "fieldElements": 1,
+              "description": "Claim binding over (requiredLevel, requiredAttributeHash, proofContext, timestamp)"
+            },
+            {
+              "index": 3,
+              "offset": 3,
+              "name": "proof_context",
+              "abiType": "Field",
+              "fieldElements": 1,
+              "description": "Deployment/profile-defined replay context hash; MUST be non-zero"
+            },
+            {
+              "index": 4,
+              "offset": 4,
+              "name": "accumulator_root",
+              "abiType": "Field",
+              "fieldElements": 1,
+              "description": "Issuer-published Poseidon2 Merkle non-revocation accumulator root"
+            },
+            {
+              "index": 5,
+              "offset": 5,
+              "name": "accumulator_epoch",
+              "abiType": "u64",
+              "fieldElements": 1,
+              "description": "Epoch of the accumulator root used by the witness"
+            },
+            {
+              "index": 6,
+              "offset": 6,
+              "name": "timestamp",
+              "abiType": "u64",
+              "fieldElements": 1,
+              "description": "Proof freshness timestamp bound into the claim binding; MUST be non-zero"
+            },
+            {
+              "index": 7,
+              "offset": 7,
+              "name": "current_epoch",
+              "abiType": "u64",
+              "fieldElements": 1,
+              "description": "Verifier-supplied current accumulator epoch; lag above MAX_EPOCH_LAG (10) rejects"
+            },
+            {
+              "index": 8,
+              "offset": 8,
+              "name": "issuer_public_key_x",
+              "abiType": "[u8; 32]",
+              "fieldElements": 32,
+              "description": "Trusted issuer secp256k1 public key x-coordinate, big-endian bytes"
+            },
+            {
+              "index": 9,
+              "offset": 40,
+              "name": "issuer_public_key_y",
+              "abiType": "[u8; 32]",
+              "fieldElements": 32,
+              "description": "Trusted issuer secp256k1 public key y-coordinate, big-endian bytes"
+            }
+          ]
+        },
+        {
+          "id": "zkc-anonymous-profile",
+          "kind": "text_contains",
+          "path": "docs/zkc_specification.md",
+          "expected": "zkc:presentation:anonymous:v1"
+        },
+        {
+          "id": "zkc-scoped-profile",
+          "kind": "text_contains",
+          "path": "docs/zkc_specification.md",
+          "expected": "zkc:presentation:scoped:v1"
+        },
+        {
+          "id": "zkc-linkable-profile",
+          "kind": "text_contains",
+          "path": "docs/zkc_specification.md",
+          "expected": "zkc:presentation:linkable:v1"
+        },
+        {
+          "id": "zkc-selective-disclosure-v1-v2-carriage",
+          "kind": "text_contains",
+          "path": "docs/zkc_specification.md",
+          "expected": "Its proof entry is `zkc:proof:selective_disclosure:v1`, carried only in a `zkc:proof:v2` anonymous or scoped presentation envelope."
+        }
+      ],
+      "vector_cases": [
+        "linkable-v1-accepted",
+        "anonymous-v2-coord-accepted",
+        "scoped-v2-payment-accepted",
+        "context-mismatch",
+        "profile-envelope-mismatch",
+        "scope-mismatch",
+        "subject-mismatch",
+        "session-replay",
+        "payment-binding-without-transaction",
+        "unknown-version",
+        "ambiguous-version",
+        "empty-coordination-bundle",
+        "presentation-purpose-context-mismatch",
+        "verified-subject-mismatch",
+        "presentation-meaning-mismatch",
+        "presentation-empty-predicate-set",
+        "presentation-flow-relabel",
+        "instance-attestation-unknown-root-class",
+        "instance-attestation-unaccepted-root",
+        "instance-attestation-missing-window",
+        "instance-attestation-missing-subject"
+      ]
+    },
+    "zkm": {
+      "assertions": [
+        {
+          "id": "zkm-spec-version",
+          "kind": "text_contains",
+          "path": "docs/zkm_specification.md",
+          "expected": "**Version:** 0.1.0-draft"
+        },
+        {
+          "id": "zkm-spec-family-epoch",
+          "kind": "text_contains",
+          "path": "docs/zkm_specification.md",
+          "expected": "zka:protocol-family:2026-11-19.1"
+        },
+        {
+          "id": "zkm-statement-registry",
+          "kind": "path_exists",
+          "path": "protocol-family/zkm-statement-registry-v1.json"
+        },
+        {
+          "id": "zkm-statement-set-id",
+          "kind": "json_pointer_equals",
+          "path": "protocol-family/zkm-statement-registry-v1.json",
+          "pointer": "/statement_set_id",
+          "expected": "sha256:f367e0504bcbbe4ca2a150f9c56a7640d5ed21bdb9dec1c1ce4acaa6e023ab49"
+        },
+        {
+          "id": "zkm-last-breaking-revision",
+          "kind": "json_pointer_equals",
+          "path": "protocol-family/zkm-statement-registry-v1.json",
+          "pointer": "/last_breaking_revision",
+          "expected": 13
+        },
+        {
+          "id": "zkm-registry-family-epoch",
+          "kind": "json_pointer_equals",
+          "path": "protocol-family/zkm-statement-registry-v1.json",
+          "pointer": "/family_epoch",
+          "expected": "zka:protocol-family:2026-11-19.1"
+        },
+        {
+          "id": "zkm-spec-revision",
+          "kind": "text_contains",
+          "path": "docs/zkm_specification.md",
+          "expected": "| 0.1.0-draft (rev 13) | 2026-10-27 |"
+        },
+        {
+          "id": "zkm-spend-conjoined-statement",
+          "kind": "text_contains",
+          "path": "docs/zkm_specification.md",
+          "expected": "zkm:spend-conjoined:v2"
+        },
+        {
+          "id": "zkm-mandate-only-statement",
+          "kind": "text_contains",
+          "path": "docs/zkm_specification.md",
+          "expected": "zkm:mandate-only:v2"
+        },
+        {
+          "id": "zkm-statement-abi-arities",
+          "kind": "text_contains",
+          "path": "docs/zkm_specification.md",
+          "expected": "14 elements total against the mandate-only form's 9"
+        },
+        {
+          "id": "zkm-revocation-scheme",
+          "kind": "text_contains",
+          "path": "docs/zkm_specification.md",
+          "expected": "`revocation_scheme` MUST equal 2 for the depth-254"
+        },
+        {
+          "id": "zkm-legacy-statement-boundary",
+          "kind": "text_contains",
+          "path": "docs/zkm_specification.md",
+          "expected": "Legacy `zkm:mandate-only:v1` and `zkm:spend-conjoined:v1` statements are"
+        },
+        {
+          "id": "zkm-afp-kdc-v103-reference",
+          "kind": "text_contains",
+          "path": "docs/zkm_specification.md",
+          "expected": "AFP-KDC v1.0.3"
+        },
+        {
+          "id": "zkm-toolchain-nargo",
+          "kind": "text_contains",
+          "path": ".noir-version",
+          "expected": "NARGO_VERSION=1.0.0-beta.25"
+        },
+        {
+          "id": "zkm-toolchain-barretenberg",
+          "kind": "text_contains",
+          "path": ".noir-version",
+          "expected": "BB_VERSION=5.0.0"
+        }
+      ],
+      "vector_cases": [
+        "linkable-v1-accepted",
+        "anonymous-v2-coord-accepted",
+        "scoped-v2-payment-accepted",
+        "context-mismatch",
+        "profile-envelope-mismatch",
+        "scope-mismatch",
+        "subject-mismatch",
+        "session-replay",
+        "payment-binding-without-transaction",
+        "unknown-version",
+        "ambiguous-version",
+        "empty-coordination-bundle",
+        "presentation-purpose-context-mismatch",
+        "verified-subject-mismatch",
+        "presentation-meaning-mismatch",
+        "presentation-empty-predicate-set",
+        "presentation-flow-relabel",
+        "instance-attestation-unknown-root-class",
+        "instance-attestation-unaccepted-root",
+        "instance-attestation-missing-window",
+        "instance-attestation-missing-subject"
+      ]
+    }
+  },
+  "vector_file": "protocol-family/golden-vectors-v1.json"
+}

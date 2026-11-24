@@ -1,0 +1,8 @@
+[package]
+name = "zka_authwit_test_proxy"
+authors = ["ZKA Contributors"]
+compiler_version = ">=1.0.0"
+type = "contract"
+
+[dependencies]
+aztec = { git = "https://github.com/aztec-labs-eng/aztec-nr", tag = "v6.0.0", directory = "aztec" }

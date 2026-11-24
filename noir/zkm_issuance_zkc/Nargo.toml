@@ -1,0 +1,9 @@
+[package]
+name = "zkm_issuance_zkc"
+type = "bin"
+authors = ["ZKM Protocol"]
+compiler_version = ">=1.0.0"
+description = "ZKM credential-bound issuance proof"
+
+[dependencies]
+zkm_lib = { path = "../zkm_lib" }

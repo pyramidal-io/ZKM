@@ -1,0 +1,250 @@
+name: Public CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check-public-surface:
+    runs-on: ubuntu-24.04
+    env:
+      NARGO_TARBALL_SHA256: bf3410ab94933a4aebd1f988b67ae974c6c227f9456ed0f1e4a3716bb8a30fe9
+      BB_TARBALL_SHA256: 4b42a64a0587e1e15089f7a20c87fa2d8a092acb4fc95465a798a73b98ba794d
+      GITLEAKS_VERSION: 8.30.1
+      GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+      TRUFFLEHOG_VERSION: 3.97.0
+      TRUFFLEHOG_SHA256: 62224de2f9dd7cd418800feb953760a302ed2f82a7c547fe1146a4874fb179e4
+      FOUNDRY_VERSION: 1.7.1
+      FOUNDRY_TARBALL_SHA256: cf7e688ed0c4c48adffca788b496076e31060b67ac5afe1e43dbb5499c20c88b
+      SOLC_VERSION: 0.8.27
+      SOLC_BUILD: 0.8.27+commit.40a35a09
+      SOLC_BINARY_SHA256: b9977d500c17cba6f0032ca939ef98c4decf6363f19f386d05fb02f708115264
+    steps:
+      # Immutable pin; do not replace this with a mutable major-version tag.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.0
+        with:
+          persist-credentials: false
+
+      # This is a closed-world source snapshot, so an unexpected tracked file
+      # is a failure rather than merely an informational inventory change.
+      - name: Verify PUBLIC_SURFACE inventory
+        run: python3 .github/scripts/check-public-surface.py
+
+      - name: Verify first-party and dependency license inventory
+        run: python3 .github/scripts/check-third-party-licenses.py --profile static
+
+      # Scan the clean tracked snapshot before any compiler, package manager,
+      # or test creates caches, dependencies, or generated artifacts.
+      - name: Install checksum-pinned secret scanners
+        shell: bash -euo pipefail {0}
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          gitleaks_archive="$(mktemp)"
+          trufflehog_archive="$(mktemp)"
+          trap 'rm -f "$gitleaks_archive" "$trufflehog_archive"' EXIT
+          curl --fail --silent --show-error --location \
+            --output "$gitleaks_archive" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          echo "${GITLEAKS_SHA256}  $gitleaks_archive" | sha256sum --check --strict
+          tar -xzf "$gitleaks_archive" -C "$HOME/.local/bin" gitleaks
+          curl --fail --silent --show-error --location \
+            --output "$trufflehog_archive" \
+            "https://github.com/trufflesecurity/trufflehog/releases/download/v${TRUFFLEHOG_VERSION}/trufflehog_${TRUFFLEHOG_VERSION}_linux_amd64.tar.gz"
+          echo "${TRUFFLEHOG_SHA256}  $trufflehog_archive" | sha256sum --check --strict
+          tar -xzf "$trufflehog_archive" -C "$HOME/.local/bin" trufflehog
+          chmod +x "$HOME/.local/bin/gitleaks" "$HOME/.local/bin/trufflehog"
+          test "$("$HOME/.local/bin/gitleaks" version)" = "$GITLEAKS_VERSION"
+          test "$("$HOME/.local/bin/trufflehog" --version)" = "trufflehog $TRUFFLEHOG_VERSION"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Run Gitleaks
+        shell: bash -euo pipefail {0}
+        run: |
+          set +e
+          output="$(gitleaks dir . --redact=100 --ignore-gitleaks-allow --no-banner 2>&1)"
+          status=$?
+          set -e
+          : "$output"
+          if [ "$status" -ne 0 ]; then
+            echo "::error::gitleaks rejected the public snapshot"
+            exit 1
+          fi
+
+      - name: Run TruffleHog
+        shell: bash -euo pipefail {0}
+        run: |
+          set +e
+          output="$(trufflehog filesystem . --json --no-update --fail --fail-on-scan-errors 2>&1)"
+          status=$?
+          set -e
+          : "$output"
+          if [ "$status" -ne 0 ]; then
+            echo "::error::trufflehog rejected the public snapshot"
+            exit 1
+          fi
+
+      # The registry derives the statement/VK surface from committed source
+      # and goldens; the shared validator binds that derived surface to the
+      # projected protocol-family manifest and snapshot lock.
+      - name: Verify ZKM statement registry
+        run: python3 scripts/check-zkm-statement-registry.py
+
+      - name: Self-test ZKM statement registry checker
+        run: python3 scripts/check-zkm-statement-registry.py --self-test
+
+      - name: Verify ZKC envelope known-answer vector
+        run: python3 scripts/check-zkc-envelope-kat.py
+
+      - name: Validate protocol-family projection
+        run: python3 scripts/validate_protocol_family.py validate --repo zkm --root .
+
+      - name: Self-test revocation v2 migration
+        run: python3 scripts/migrate-revocation-v2.py --self-test
+
+      - name: Self-test field-canonicity gate
+        run: bash noir/scripts/check-field-canonicity.sh --self-test
+
+      - name: Verify field canonicity
+        run: bash noir/scripts/check-field-canonicity.sh
+
+      - name: Load exact pinned Noir toolchain
+        shell: bash -euo pipefail {0}
+        run: |
+          source .noir-version
+          test -n "${NARGO_VERSION:-}"
+          test -n "${BB_VERSION:-}"
+          echo "NARGO_VERSION=$NARGO_VERSION" >> "$GITHUB_ENV"
+          echo "BB_VERSION=$BB_VERSION" >> "$GITHUB_ENV"
+
+      # Nargo beta.25 accepts only a mutable git tag for this dependency.
+      # Check its remote target before fetching, then hash the fetched bytes
+      # below to close the intervening TOCTOU window.
+      - name: Verify Poseidon tag pin
+        shell: bash -euo pipefail {0}
+        run: |
+          expected=0880c371e88e583d39515fd3f877538657ac41eb
+          actual="$(git ls-remote https://github.com/noir-lang/poseidon refs/tags/v0.3.0 | cut -f1)"
+          test "$actual" = "$expected"
+
+      - name: Install checksum-pinned Nargo
+        shell: bash -euo pipefail {0}
+        run: |
+          archive="$(mktemp)"
+          trap 'rm -f "$archive"' EXIT
+          curl --fail --silent --show-error --location \
+            --output "$archive" \
+            "https://github.com/noir-lang/noir/releases/download/v${NARGO_VERSION}/nargo-x86_64-unknown-linux-gnu.tar.gz"
+          echo "${NARGO_TARBALL_SHA256}  $archive" | sha256sum --check --strict
+          mkdir -p "$HOME/.nargo/bin"
+          tar -xzf "$archive" -C "$HOME/.nargo/bin" nargo
+          chmod +x "$HOME/.nargo/bin/nargo"
+          echo "$HOME/.nargo/bin" >> "$GITHUB_PATH"
+
+      - name: Verify installed Nargo version
+        shell: bash -euo pipefail {0}
+        run: |
+          actual_nargo="$(nargo --version | sed -n 's/^nargo version = //p')"
+          test -n "$actual_nargo"
+          test "$actual_nargo" = "$NARGO_VERSION"
+
+      # This is deliberately the first Nargo operation: it populates the
+      # git-dependency cache consumed by the integrity gate immediately after.
+      - name: Compile Noir workspace
+        working-directory: noir
+        run: nargo check
+
+      - name: Verify fetched Poseidon source integrity
+        run: bash noir/scripts/check-poseidon-source-integrity.sh
+
+      - name: Self-test Poseidon source integrity gate
+        run: bash noir/scripts/check-poseidon-source-integrity.sh --self-test
+
+      - name: Check Noir formatting
+        working-directory: noir
+        run: nargo fmt --check
+
+      - name: Run Noir workspace tests
+        working-directory: noir
+        run: nargo test --workspace
+
+      - name: Install checksum-pinned Barretenberg
+        shell: bash -euo pipefail {0}
+        run: |
+          archive="$(mktemp)"
+          trap 'rm -f "$archive"' EXIT
+          curl --fail --silent --show-error --location \
+            --output "$archive" \
+            "https://github.com/AztecProtocol/barretenberg/releases/download/v${BB_VERSION}/barretenberg-amd64-linux.tar.gz"
+          echo "${BB_TARBALL_SHA256}  $archive" | sha256sum --check --strict
+          mkdir -p "$HOME/.bb"
+          tar -xzf "$archive" -C "$HOME/.bb" bb
+          chmod +x "$HOME/.bb/bb"
+          echo "$HOME/.bb" >> "$GITHUB_PATH"
+
+      - name: Verify installed Barretenberg version
+        shell: bash -euo pipefail {0}
+        run: |
+          actual_bb="$(bb --version | head -1 | tr -d '\r')"
+          test -n "$actual_bb"
+          test "$actual_bb" = "$BB_VERSION"
+
+      # Recompiles under the exact pinned Nargo and BB versions and compares
+      # VK hashes, public-input shapes, ACIR counts, and bytecode hashes.
+      - name: Verify circuit structural goldens
+        run: bash noir/scripts/check-circuit-goldens.sh
+
+      # Structural goldens do not construct real proofs. Exercise every shape
+      # class against the exact Nargo/BB pair and require proof verification.
+      - name: Prove and verify every circuit shape class
+        run: bash noir/scripts/prove-shape-classes.sh
+
+      - name: Install checksum-pinned Foundry and solc
+        shell: bash -euo pipefail {0}
+        run: |
+          foundry_archive="$(mktemp)"
+          solc_binary="$(mktemp)"
+          trap 'rm -f "$foundry_archive" "$solc_binary"' EXIT
+          curl --fail --silent --show-error --location \
+            --output "$foundry_archive" \
+            "https://github.com/foundry-rs/foundry/releases/download/v${FOUNDRY_VERSION}/foundry_v${FOUNDRY_VERSION}_linux_amd64.tar.gz"
+          echo "${FOUNDRY_TARBALL_SHA256}  $foundry_archive" | sha256sum --check --strict
+          mkdir -p "$HOME/.foundry/bin" "$HOME/.local/bin"
+          tar -xzf "$foundry_archive" -C "$HOME/.foundry/bin" forge
+          chmod +x "$HOME/.foundry/bin/forge"
+          curl --fail --silent --show-error --location \
+            --output "$solc_binary" \
+            "https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v${SOLC_BUILD}"
+          echo "${SOLC_BINARY_SHA256}  $solc_binary" | sha256sum --check --strict
+          mv "$solc_binary" "$HOME/.local/bin/solc-${SOLC_VERSION}"
+          chmod +x "$HOME/.local/bin/solc-${SOLC_VERSION}"
+          echo "$HOME/.foundry/bin" >> "$GITHUB_PATH"
+          echo "SOLC_PATH=$HOME/.local/bin/solc-${SOLC_VERSION}" >> "$GITHUB_ENV"
+
+      - name: Install locked Solidity dependency and compile contracts
+        shell: bash -euo pipefail {0}
+        run: |
+          forge --version | grep -F "$FOUNDRY_VERSION"
+          "$SOLC_PATH" --version | grep -F "Version: ${SOLC_BUILD}.Linux.g++"
+          forge soldeer install
+          python3 .github/scripts/check-third-party-licenses.py \
+            --profile noir-solidity \
+            --poseidon-dir "$HOME/nargo/github.com/noir-lang/poseidon/v0.3.0" \
+            --forge-std-dir dependencies/forge-std-1.9.7
+          forge build --force --offline --use "$SOLC_PATH"
+
+  check-aztec-profile:
+    needs: check-public-surface
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: Compile and test with the digest-pinned Aztec toolchain
+        env:
+          AZTEC_CACHE_HOME: ${{ runner.temp }}/zkm-aztec-home
+        run: bash .github/scripts/run-aztec-ci.sh

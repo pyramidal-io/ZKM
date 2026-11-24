@@ -1,0 +1,133 @@
+{
+  "schema": "zkm:third-party-license-lock:v1",
+  "first_party": {
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "NOTICE": "5c2b8d82124c29bab9f4ae969c6714a8eb6a6ed18df3c5776faf0b498429c190"
+  },
+  "dependencies": [
+    {
+      "id": "noir-lang/poseidon",
+      "kind": "nargo-git",
+      "git": "https://github.com/noir-lang/poseidon",
+      "declarations": [
+        "noir/zkm_lib/Nargo.toml",
+        "aztec/vendor/zka/noir/zka_lib/Nargo.toml"
+      ],
+      "tag": "v0.3.0",
+      "commit": "0880c371e88e583d39515fd3f877538657ac41eb",
+      "source_sha256": "ed0542e563d41fd9a623b58e4bf4b4f1fa819aba00ed62d3845e4fc262740a9a",
+      "spdx": "Apache-2.0",
+      "licenses": {
+        "LICENSE": "4458503dd48e88c4e0b945fb252a08b93c40ec757309b8ffa7c594dfa1e35104"
+      }
+    },
+    {
+      "id": "forge-std",
+      "kind": "soldeer",
+      "url": "https://soldeer-revisions.s3.amazonaws.com/forge-std/1_9_7_28-04-2025_15:55:08_forge-std-1.9.zip",
+      "declarations": [
+        "soldeer.lock"
+      ],
+      "version": "1.9.7",
+      "archive_sha256": "8d9e0a885fa8ee6429a4d344aeb6799119f6a94c7c4fe6f188df79b0dce294ba",
+      "integrity": "9e60fdba82bc374df80db7f2951faff6467b9091873004a3d314cf0c084b3c7d",
+      "spdx": "MIT OR Apache-2.0",
+      "licenses": {
+        "LICENSE-APACHE": "50b6bf8bdb63265ce14953b480b7aaa0271e78f56843b99c184abd3ae5048cd7",
+        "LICENSE-MIT": "6d185dfe089d4de346d391fc5997fbd4739bad1d6556010413c10f420d704ecc"
+      }
+    },
+    {
+      "id": "aztec-labs-eng/aztec-nr",
+      "kind": "nargo-git",
+      "git": "https://github.com/aztec-labs-eng/aztec-nr",
+      "declarations": [
+        "aztec/zkm_aztec_lib/Nargo.toml",
+        "aztec/zkm_mandate_aztec/Nargo.toml",
+        "aztec/vendor/zka/aztec/zka_authwit_test_proxy/Nargo.toml",
+        "aztec/vendor/zka/aztec/zka_aztec_lib/Nargo.toml",
+        "aztec/vendor/zka/aztec/zka_credential_aztec/Nargo.toml",
+        "aztec/vendor/zka/aztec/zka_transfer_aztec/Nargo.toml"
+      ],
+      "tag": "v6.0.0",
+      "commit": "0472012201fdff1429d184f8d25cecf13ca94326",
+      "source_sha256": "65c7a0a1c2b64b6b222d0f51ab90da79cfa9e16ed6c2bf396747a69ad8a61dff",
+      "spdx": "Apache-2.0",
+      "licenses": {
+        "LICENCE": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+      }
+    },
+    {
+      "id": "pyramidal-io/ZKA.dev",
+      "kind": "vendored",
+      "declarations": [
+        "aztec/zkm_mandate_aztec/Nargo.toml"
+      ],
+      "commit": "b5ab3b3743d33cbee3b9ee38c6e14610deb2228f",
+      "source_sha256": "acdf850cbe0119583c917552f377f856b72b3a178998a18d762c5fb87bc0e275",
+      "spdx": "Apache-2.0",
+      "licenses": {
+        "LICENSE": "2ef2c8b2f81a408831ae03783432c1a4e4d92ad9f61527cf847a37b92d6665c2",
+        "NOTICE": "7c2616426dbe2df5df87e339091c5531d9c8e01ff69567e6edb9a7beb48ea7aa",
+        "LICENSE-MIT": "b470d551e3d815d385c727318cbab8f1a4844f2e24c9bbdef0ef6119143cf1d2"
+      },
+      "path": "aztec/vendor/zka",
+      "tree": "7dc81a09abcae52e2f48436523d3cdf139a54368"
+    },
+    {
+      "id": "noir-lang/sha256",
+      "kind": "nargo-git",
+      "git": "https://github.com/noir-lang/sha256",
+      "declarations": [
+        "aztec/vendor/zka/aztec/zka_aztec_lib/Nargo.toml"
+      ],
+      "tag": "v0.3.0",
+      "commit": "9442e5b6856f98b2ec029882d7e90199ecff91ba",
+      "source_sha256": "fc2b0c1ca6747439846ae5d815bacefc5a0e615d236ab3705b1d1d1a01cdeeae",
+      "spdx": "Apache-2.0",
+      "licenses": {},
+      "license_evidence": {
+        "kind": "upstream-later-revision",
+        "repository": "https://github.com/noir-lang/sha256",
+        "commit": "50f5fda729d94848aabcd9d54dc7751460e9143a",
+        "path": "LICENSE",
+        "blob": "fe72851a686f4c593101ddd986fd0391c643c8c1",
+        "sha256": "6e6938e192dd643c13add5af287af194d5b40e5b42de57fcf5750b7e2511201b",
+        "vendored_copy": "aztec/licenses/noir-lang-sha256/LICENSE",
+        "accepted_by": "beddows",
+        "accepted_on": "2026-10-26",
+        "rationale": "The pinned v0.3.0 tree has no license file; its package.json MIT declaration belongs to the TypeScript oracle server, not the Noir library, and no license terms are inferred from it. Upstream added an Apache-2.0 LICENSE (copyright Aztec Labs and Aztec Foundation) in PR noir-lang/sha256#65, merged 2026-10-20, because the repository had no license. The owner accepts that later LICENSE as evidence for v0.3.0. Library source differences from v0.3.0 to that revision are limited to src/sha256.nr and one line of src/sha224.nr."
+      }
+    },
+    {
+      "id": "AztecProtocol/aztec-packages",
+      "kind": "nargo-git-transitive",
+      "git": "https://github.com/AztecProtocol/aztec-packages",
+      "declarations": [
+        "aztec-labs-eng/aztec-nr:aztec/Nargo.toml"
+      ],
+      "tag": "v6.0.0",
+      "commit": "0219f11d8133970df3974fe5ae65e006bf8c193a",
+      "source_sha256": "c6bc3bd4e4b7ccdf5f189663dfda7b633887f5697be580497cbe9d43d512171e",
+      "spdx": "Apache-2.0",
+      "licenses": {
+        "LICENSE": "a386b8c97533961f4c63b59593fba2a98b150b66706321a969d20ff72a9d892b"
+      }
+    },
+    {
+      "id": "noir-lang/poseidon-v0.4.0",
+      "kind": "nargo-git-transitive",
+      "git": "https://github.com/noir-lang/poseidon",
+      "declarations": [
+        "AztecProtocol/aztec-packages:noir-projects/fnd/noir-protocol-circuits/crates/types/Nargo.toml"
+      ],
+      "tag": "v0.4.0",
+      "commit": "e105cdd5c79c222860d53c5dfdb8fa8012b291c0",
+      "source_sha256": "4453fa59e6482d7ce976a643bc62793161c8e08a98b1cdfe0711b667a1b6c104",
+      "spdx": "Apache-2.0",
+      "licenses": {
+        "LICENSE": "4458503dd48e88c4e0b945fb252a08b93c40ec757309b8ffa7c594dfa1e35104"
+      }
+    }
+  ]
+}

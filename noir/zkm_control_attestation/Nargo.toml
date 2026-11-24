@@ -1,0 +1,9 @@
+[package]
+name = "zkm_control_attestation"
+type = "bin"
+authors = ["ZKM Protocol"]
+compiler_version = ">=1.0.0"
+description = "ZKM §5 control-attestation statement — proves lineage control to a disclosure recipient without carrying revocation capability"
+
+[dependencies]
+zkm_lib = { path = "../zkm_lib" }

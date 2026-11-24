@@ -1,0 +1,9 @@
+[package]
+name = "zka_cross_env_tests"
+type = "lib"
+authors = ["ZKA Contributors"]
+compiler_version = ">=1.0.0"
+
+[dependencies]
+zka_lib = { path = "../../noir/zka_lib" }
+zka_aztec_lib = { path = "../zka_aztec_lib" }

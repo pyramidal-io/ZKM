@@ -1,0 +1,63 @@
+{
+  "version": "zkm:public-inputs:v1",
+  "circuit": "zkm_spend_zkc_binding",
+  "statement": "zkm:spend-zkc-binding:v1",
+  "statementSetId": "sha256:f367e0504bcbbe4ca2a150f9c56a7640d5ed21bdb9dec1c1ce4acaa6e023ab49",
+  "vkIdentifier": {
+    "scheme": "ultra_honk",
+    "transcript_target": "noir-recursive",
+    "vk_hash": "0x19b990f4ff4bfadc451a0390e1ac18eb3430b59f4fe0eadb6ab7829071e78128"
+  },
+  "toolchain": {
+    "nargo": "1.0.0-beta.25",
+    "barretenberg": "5.0.0"
+  },
+  "proofSystem": "ultra_honk",
+  "curve": "BN254",
+  "encoding": {
+    "fieldElement": "Canonical BN254 scalar field element as 32-byte big-endian; reject out-of-field values without reduction",
+    "jsonValue": "Lowercase 0x-prefixed 64-hex-character string for every public input, including booleans and integers",
+    "order": "Declaration order of pub parameters in noir/zkm_spend_zkc_binding/src/main.nr main(); never sort object keys to flatten",
+    "names": "Exact registry/Noir snake_case names; reject missing, extra, duplicate or alias members",
+    "booleans": "false = 0, true = 1; reject other decoded values",
+    "integers": "Unsigned integers are zero-extended into one field element; reject values outside the abiType range"
+  },
+  "totalFieldElements": 5,
+  "publicInputs": [
+    {
+      "index": 0,
+      "offset": 0,
+      "name": "nf",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 1,
+      "offset": 1,
+      "name": "zka_cm_recipient",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 2,
+      "offset": 2,
+      "name": "asset_id",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 3,
+      "offset": 3,
+      "name": "settlement_context",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 4,
+      "offset": 4,
+      "name": "zkc_composition_binding",
+      "abiType": "Field",
+      "fieldElements": 1
+    }
+  ]
+}

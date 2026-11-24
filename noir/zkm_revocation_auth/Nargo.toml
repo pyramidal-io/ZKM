@@ -1,0 +1,9 @@
+[package]
+name = "zkm_revocation_auth"
+type = "bin"
+authors = ["ZKM Protocol"]
+compiler_version = ">=1.0.0"
+description = "ZKM §7.1 revocation-authorization proof (root_id preimage knowledge)"
+
+[dependencies]
+zkm_lib = { path = "../zkm_lib" }

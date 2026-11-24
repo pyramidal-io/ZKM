@@ -1,0 +1,10 @@
+[package]
+name = "zka_credential_aztec"
+authors = ["ZKA Contributors"]
+compiler_version = ">=1.0.0"
+type = "contract"
+
+[dependencies]
+aztec = { git = "https://github.com/aztec-labs-eng/aztec-nr", tag = "v6.0.0", directory = "aztec" }
+zka_lib = { path = "../../noir/zka_lib" }
+zka_aztec_lib = { path = "../zka_aztec_lib" }

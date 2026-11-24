@@ -1,0 +1,9 @@
+[package]
+name = "zkm_spend_zkc_binding"
+type = "bin"
+authors = ["ZKM Protocol"]
+compiler_version = ">=1.0.0"
+description = "ZKM spend companion proving ZKC holder control of the ZKA recipient"
+
+[dependencies]
+zkm_lib = { path = "../zkm_lib" }

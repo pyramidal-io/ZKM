@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "zka_aztec_lib",
+    "zka_authwit_test_proxy",
+    "zka_transfer_aztec",
+    "zka_credential_aztec",
+    "zka_cross_env_tests",
+]

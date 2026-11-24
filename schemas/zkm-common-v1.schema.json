@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:zkm:schema:common:v1",
+  "title": "ZKM envelope shared definitions",
+  "description": "Offline ZKM-owned structural definitions. Cryptographic validity, commitment opening, inclusion, consent, and recipient binding are separate checks.",
+  "$defs": {
+    "field": {
+      "type": "string",
+      "pattern": "^0x[0-9a-f]{64}$",
+      "minLength": 66,
+      "maxLength": 66
+    },
+    "nonzeroField": {
+      "type": "string",
+      "pattern": "^0x(?!0{64}$)[0-9a-f]{64}$",
+      "minLength": 66,
+      "maxLength": 66
+    },
+    "nonce32": {
+      "type": "string",
+      "pattern": "^0x(?!0{64}$)[0-9a-f]{64}$",
+      "description": "32-byte recipient challenge, not a BN254 field",
+      "minLength": 66,
+      "maxLength": 66
+    },
+    "decimal": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)$",
+      "not": {
+        "pattern": "[^0-9]"
+      }
+    },
+    "nonempty": {
+      "type": "string",
+      "minLength": 1
+    },
+    "proofBytes": {
+      "type": "string",
+      "pattern": "^0x(?:[0-9a-f]{2})+$",
+      "not": {
+        "pattern": "[^0-9a-fx]"
+      }
+    },
+    "vkIdentifier": {
+      "type": "object",
+      "required": [
+        "scheme",
+        "transcript_target",
+        "vk_hash"
+      ],
+      "properties": {
+        "scheme": {
+          "const": "ultra_honk"
+        },
+        "transcript_target": {
+          "enum": [
+            "noir-recursive",
+            "evm"
+          ]
+        },
+        "vk_hash": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/hex32"
+        }
+      },
+      "additionalProperties": false
+    },
+    "mandateOpening": {
+      "type": "object",
+      "required": [
+        "kind",
+        "commitment",
+        "root_id",
+        "settlement_domain",
+        "asset_id",
+        "remaining_cap",
+        "expiry",
+        "policy_hash",
+        "holder_key",
+        "depth",
+        "randomness"
+      ],
+      "properties": {
+        "kind": {
+          "const": "mandate"
+        },
+        "commitment": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "root_id": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "settlement_domain": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "asset_id": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "remaining_cap": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/decimal"
+        },
+        "expiry": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/decimal"
+        },
+        "policy_hash": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "holder_key": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "depth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        },
+        "randomness": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        }
+      },
+      "additionalProperties": false
+    },
+    "recipientOpening": {
+      "type": "object",
+      "required": [
+        "kind",
+        "commitment",
+        "assetCommitment",
+        "amount",
+        "recipient",
+        "randomness"
+      ],
+      "properties": {
+        "kind": {
+          "const": "zka-recipient"
+        },
+        "commitment": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "assetCommitment": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "amount": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/decimal"
+        },
+        "recipient": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "randomness": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        }
+      },
+      "additionalProperties": false
+    },
+    "inclusion": {
+      "type": "object",
+      "required": [
+        "targetId",
+        "canonicalPosition"
+      ],
+      "properties": {
+        "targetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "canonicalPosition": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "zkcComposition": {
+      "type": "object",
+      "required": [
+        "zkcEnvelope",
+        "zkcVkIdentifier",
+        "zkcVkHash",
+        "zkcProofDigest",
+        "profile",
+        "subjectHandle",
+        "scopeId",
+        "exactContext"
+      ],
+      "properties": {
+        "zkcEnvelope": {
+          "type": "object",
+          "description": "Complete upstream-owned ZKC envelope; independently validate against the pinned ZKC schema."
+        },
+        "zkcVkIdentifier": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/vkIdentifier"
+        },
+        "zkcVkHash": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "zkcProofDigest": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "profile": {
+          "enum": [
+            "zkc:presentation:scoped:v1",
+            "zkc:presentation:linkable:v1"
+          ]
+        },
+        "subjectHandle": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "scopeId": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "exactContext": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hex32": {
+      "type": "string",
+      "pattern": "^0x[0-9a-f]{64}$",
+      "description": "32-byte digest; target-specific VK hashes need not be BN254 field elements",
+      "minLength": 66,
+      "maxLength": 66
+    },
+    "u8": {
+      "type": "string",
+      "pattern": "^0x0{62}[0-9a-f]{2}$",
+      "description": "Canonical 32-byte field encoding of u8",
+      "minLength": 66,
+      "maxLength": 66
+    },
+    "u64": {
+      "type": "string",
+      "pattern": "^0x0{48}[0-9a-f]{16}$",
+      "description": "Canonical 32-byte field encoding of u64",
+      "minLength": 66,
+      "maxLength": 66
+    },
+    "bool": {
+      "type": "string",
+      "pattern": "^0x0{63}[01]$",
+      "description": "Canonical 32-byte field encoding of boolean",
+      "minLength": 66,
+      "maxLength": 66
+    }
+  }
+}

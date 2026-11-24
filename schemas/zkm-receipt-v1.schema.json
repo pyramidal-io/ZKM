@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:zkm:schema:receipt:v1",
+  "title": "zkm:receipt:v1",
+  "description": "Holder-retained receipt structure. Claimed openings and inclusion coordinates require independent cryptographic and settlement verification.",
+  "type": "object",
+  "required": [
+    "version",
+    "proofEnvelope",
+    "vkIdentifier",
+    "inclusion",
+    "successorOpenings",
+    "companions"
+  ],
+  "properties": {
+    "version": {
+      "const": "zkm:receipt:v1"
+    },
+    "proofEnvelope": {
+      "$ref": "urn:zkm:schema:proof:v1",
+      "allOf": [
+        {
+          "properties": {
+            "statement": {
+              "enum": [
+                "zkm:mandate-only:v2",
+                "zkm:spend-conjoined:v2",
+                "zkm:issuance:v1",
+                "zkm:issuance-zkc:v1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "vkIdentifier": {
+      "$ref": "urn:zkm:schema:common:v1#/$defs/vkIdentifier"
+    },
+    "inclusion": {
+      "$ref": "urn:zkm:schema:common:v1#/$defs/inclusion"
+    },
+    "successorOpenings": {
+      "type": "array",
+      "items": {
+        "$ref": "urn:zkm:schema:common:v1#/$defs/mandateOpening"
+      }
+    },
+    "recipientOpening": {
+      "$ref": "urn:zkm:schema:common:v1#/$defs/recipientOpening"
+    },
+    "companions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "proofEnvelope",
+          "vkIdentifier"
+        ],
+        "properties": {
+          "proofEnvelope": {
+            "$ref": "urn:zkm:schema:proof:v1",
+            "allOf": [
+              {
+                "properties": {
+                  "statement": {
+                    "enum": [
+                      "zkm:possession:v1",
+                      "zkm:spend-zkc-binding:v1"
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "vkIdentifier": {
+            "$ref": "urn:zkm:schema:common:v1#/$defs/vkIdentifier"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "if": {
+    "properties": {
+      "proofEnvelope": {
+        "properties": {
+          "statement": {
+            "const": "zkm:spend-conjoined:v2"
+          }
+        }
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "recipientOpening"
+    ]
+  },
+  "else": {
+    "not": {
+      "required": [
+        "recipientOpening"
+      ]
+    }
+  }
+}

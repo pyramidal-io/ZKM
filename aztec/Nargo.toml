@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "zkm_aztec_lib",
+    "zkm_mandate_aztec",
+]

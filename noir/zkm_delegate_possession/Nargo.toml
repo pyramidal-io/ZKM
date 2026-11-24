@@ -1,0 +1,9 @@
+[package]
+name = "zkm_delegate_possession"
+type = "bin"
+authors = ["ZKM Protocol"]
+compiler_version = ">=1.0.0"
+description = "ZKM §6 delegate-key possession companion proof"
+
+[dependencies]
+zkm_lib = { path = "../zkm_lib" }

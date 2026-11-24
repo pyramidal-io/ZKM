@@ -1,0 +1,7 @@
+format=zkm:aztec-source-integrity:v1
+tag=v6.0.0
+commit=0472012201fdff1429d184f8d25cecf13ca94326
+tree=c61208aecb259512aad72fbea0986b9f10b1ed93
+file_count=272
+source_sha256=65c7a0a1c2b64b6b222d0f51ab90da79cfa9e16ed6c2bf396747a69ad8a61dff
+license_sha256=58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd

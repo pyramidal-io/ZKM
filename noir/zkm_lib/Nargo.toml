@@ -1,0 +1,22 @@
+[package]
+name = "zkm_lib"
+type = "lib"
+authors = ["ZKM Protocol"]
+compiler_version = ">=1.0.0"
+description = "Shared cryptographic primitives for ZKM Noir circuits"
+
+[dependencies]
+# Pinned to noir-lang/poseidon v0.3.0 == commit
+# 0880c371e88e583d39515fd3f877538657ac41eb.
+# nargo 1.0.0-beta.25 only honors a mutable `tag` for git deps (it silently
+# ignores `rev`/`commit` and emits no Nargo.lock), so the immutable commit is
+# enforced out-of-band, two ways: (1) a pre-fetch remote-tag check in
+# .github/workflows/zkm-circuit-gate.yml ("Verify poseidon dependency pin"),
+# and (2) a verify-after-fetch source-digest gate
+# (noir/scripts/check-poseidon-source-integrity.sh, golden in
+# noir/scripts/poseidon-v0.3.0.source.sha256) that hashes what nargo actually
+# fetched — see docs/poseidon-dependency-upgrade.md. The KATs in src/lib.nr
+# are a runtime backstop: they fail loudly if the resulting Poseidon2 output
+# ever changes. Keep all in sync when bumping.
+# Same pin as zka_lib in ZKA.dev — the KAT goldens are shared with ZKA.
+poseidon = { tag = "v0.3.0", git = "https://github.com/noir-lang/poseidon" }

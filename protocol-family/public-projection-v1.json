@@ -1,0 +1,5 @@
+{
+  "format": "scanner-clean-public-projection-v1",
+  "manifest_path": "protocol-family/interface-manifest-v1.json",
+  "manifest_digest": "recomputed-for-public-projection"
+}

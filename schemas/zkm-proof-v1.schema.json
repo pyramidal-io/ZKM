@@ -1,0 +1,422 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:zkm:schema:proof:v1",
+  "title": "zkm:proof:v1",
+  "description": "Structural serialization only; target registry, proof, ZKC inner envelope, and public context still require independent verification.",
+  "type": "object",
+  "required": [
+    "version",
+    "metadata",
+    "statement",
+    "proof",
+    "publicInputs"
+  ],
+  "properties": {
+    "version": {
+      "const": "zkm:proof:v1"
+    },
+    "metadata": {
+      "type": "object",
+      "required": [
+        "generatedAt",
+        "expiresAt",
+        "context"
+      ],
+      "properties": {
+        "generatedAt": {
+          "type": "string",
+          "minLength": 1,
+          "format": "date-time"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "format": "date-time"
+        },
+        "context": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        }
+      },
+      "additionalProperties": false
+    },
+    "statement": {
+      "type": "string"
+    },
+    "proof": {
+      "$ref": "urn:zkm:schema:common:v1#/$defs/proofBytes"
+    },
+    "publicInputs": {
+      "type": "object"
+    },
+    "zkcComposition": {
+      "$ref": "urn:zkm:schema:common:v1#/$defs/zkcComposition"
+    }
+  },
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "properties": {
+        "statement": {
+          "const": "zkm:control-attestation:v1"
+        },
+        "publicInputs": {
+          "type": "object",
+          "required": [
+            "lineage_tag",
+            "settlement_context",
+            "disclosure_binding"
+          ],
+          "properties": {
+            "lineage_tag": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "settlement_context": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "disclosure_binding": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "not": {
+        "required": [
+          "zkcComposition"
+        ]
+      }
+    },
+    {
+      "properties": {
+        "statement": {
+          "const": "zkm:possession:v1"
+        },
+        "publicInputs": {
+          "type": "object",
+          "required": [
+            "cm_successor",
+            "nf",
+            "settlement_context"
+          ],
+          "properties": {
+            "cm_successor": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "nf": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "settlement_context": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "not": {
+        "required": [
+          "zkcComposition"
+        ]
+      }
+    },
+    {
+      "properties": {
+        "statement": {
+          "const": "zkm:issuance:v1"
+        },
+        "publicInputs": {
+          "type": "object",
+          "required": [
+            "cm",
+            "settlement_context"
+          ],
+          "properties": {
+            "cm": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "settlement_context": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "not": {
+        "required": [
+          "zkcComposition"
+        ]
+      }
+    },
+    {
+      "properties": {
+        "statement": {
+          "const": "zkm:issuance-zkc:v1"
+        },
+        "publicInputs": {
+          "type": "object",
+          "required": [
+            "cm",
+            "settlement_context",
+            "zkc_composition_binding"
+          ],
+          "properties": {
+            "cm": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "settlement_context": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "zkc_composition_binding": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "zkcComposition"
+      ]
+    },
+    {
+      "properties": {
+        "statement": {
+          "const": "zkm:mandate-only:v2"
+        },
+        "publicInputs": {
+          "type": "object",
+          "required": [
+            "kind",
+            "nf",
+            "cm_out_1",
+            "cm_out_2",
+            "mandate_root",
+            "revocation_root",
+            "revocation_scheme",
+            "current_time",
+            "settlement_context"
+          ],
+          "properties": {
+            "kind": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/u8"
+            },
+            "nf": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "cm_out_1": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "cm_out_2": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "mandate_root": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "revocation_root": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "revocation_scheme": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/u8"
+            },
+            "current_time": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/u64"
+            },
+            "settlement_context": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "not": {
+        "required": [
+          "zkcComposition"
+        ]
+      }
+    },
+    {
+      "properties": {
+        "statement": {
+          "const": "zkm:revocation-auth:v1"
+        },
+        "publicInputs": {
+          "type": "object",
+          "required": [
+            "root_id",
+            "settlement_context"
+          ],
+          "properties": {
+            "root_id": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "settlement_context": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "not": {
+        "required": [
+          "zkcComposition"
+        ]
+      }
+    },
+    {
+      "properties": {
+        "statement": {
+          "const": "zkm:revocation-insertion:v1"
+        },
+        "publicInputs": {
+          "type": "object",
+          "required": [
+            "root_id",
+            "previous_root",
+            "next_root",
+            "revocation_scheme",
+            "epoch",
+            "settlement_context"
+          ],
+          "properties": {
+            "root_id": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "previous_root": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "next_root": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "revocation_scheme": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/u8"
+            },
+            "epoch": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/u64"
+            },
+            "settlement_context": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "not": {
+        "required": [
+          "zkcComposition"
+        ]
+      }
+    },
+    {
+      "properties": {
+        "statement": {
+          "const": "zkm:spend-conjoined:v2"
+        },
+        "publicInputs": {
+          "type": "object",
+          "required": [
+            "kind",
+            "nf",
+            "cm_out_1",
+            "cm_out_2",
+            "mandate_root",
+            "revocation_root",
+            "revocation_scheme",
+            "current_time",
+            "settlement_context",
+            "asset_id_pub",
+            "zka_note_root",
+            "zka_nullifier",
+            "zka_cm_recipient",
+            "zka_cm_change"
+          ],
+          "properties": {
+            "kind": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/u8"
+            },
+            "nf": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "cm_out_1": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "cm_out_2": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "mandate_root": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "revocation_root": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "revocation_scheme": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/u8"
+            },
+            "current_time": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/u64"
+            },
+            "settlement_context": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "asset_id_pub": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "zka_note_root": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "zka_nullifier": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "zka_cm_recipient": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "zka_cm_change": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "not": {
+        "required": [
+          "zkcComposition"
+        ]
+      }
+    },
+    {
+      "properties": {
+        "statement": {
+          "const": "zkm:spend-zkc-binding:v1"
+        },
+        "publicInputs": {
+          "type": "object",
+          "required": [
+            "nf",
+            "zka_cm_recipient",
+            "asset_id",
+            "settlement_context",
+            "zkc_composition_binding"
+          ],
+          "properties": {
+            "nf": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "zka_cm_recipient": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "asset_id": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "settlement_context": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            },
+            "zkc_composition_binding": {
+              "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "zkcComposition"
+      ]
+    }
+  ]
+}

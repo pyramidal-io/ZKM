@@ -1,0 +1,16 @@
+[package]
+name = "zkm_mandate_aztec"
+authors = ["ZKM Contributors"]
+compiler_version = ">=1.0.0"
+type = "contract"
+
+[dependencies]
+# aztec-nargo resolves this public tag without a dependency lockfile. The
+# fetched checkout is verified after compilation by
+# ../scripts/check-aztec-source-integrity.sh (tag, commit, tree, source, and
+# LICENCE digests), so the mutable tag cannot silently change the test input.
+aztec = { git = "https://github.com/aztec-labs-eng/aztec-nr", tag = "v6.0.0", directory = "aztec" }
+zkm_lib = { path = "../../noir/zkm_lib" }
+zkm_aztec_lib = { path = "../zkm_aztec_lib" }
+# Audited source snapshot; checked before compile and again before TXE.
+zka_transfer_aztec = { path = "../vendor/zka/aztec/zka_transfer_aztec" }

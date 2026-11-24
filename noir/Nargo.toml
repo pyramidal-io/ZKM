@@ -1,0 +1,13 @@
+[workspace]
+members = [
+    "zkm_lib",
+    "zkm_control_attestation",
+    "zkm_delegate_possession",
+    "zkm_issuance",
+    "zkm_issuance_zkc",
+    "zkm_mandate_transition",
+    "zkm_revocation_auth",
+    "zkm_revocation_insertion",
+    "zkm_spend_conjoined",
+    "zkm_spend_zkc_binding",
+]

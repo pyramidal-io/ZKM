@@ -1,0 +1,51 @@
+{
+  "format": "zkm:disclosure-binding-kat:v1",
+  "note": "Synthetic binding-only vector. Placeholder receipts/openings and attestation inputs are not proofs or a valid disclosure. Full verification is separately required by specification rule 1.",
+  "envelope": {
+    "version": "zkm:disclosure:v1",
+    "metadata": {
+      "generatedAt": "2026-10-04T00:00:00Z",
+      "expiresAt": "2026-10-04T00:05:00Z",
+      "context": "0x0000000000000000000000000000000000000000000000000000000000000001",
+      "audienceId": "psp:example",
+      "recipientNonce": "0x1111111111111111111111111111111111111111111111111111111111111111",
+      "disclosureBinding": "0x2e015107243444a68fc546a60648a690aeae07509c769b6cf782d9886ac1eba2"
+    },
+    "scope": {
+      "kind": "transition",
+      "bounds": {
+        "notBefore": "0",
+        "notAfter": "1"
+      }
+    },
+    "contents": {
+      "controlAttestations": [
+        {
+          "statement": "zkm:control-attestation:v1",
+          "publicInputs": {
+            "disclosure_binding": "0x2e015107243444a68fc546a60648a690aeae07509c769b6cf782d9886ac1eba2",
+            "settlement_context": "0x0000000000000000000000000000000000000000000000000000000000000001"
+          }
+        }
+      ],
+      "receipts": [
+        "receipt-1"
+      ],
+      "delegationRecords": [],
+      "noteOpenings": [
+        "opening-1"
+      ]
+    }
+  },
+  "expected": {
+    "canonicalProjection": "{\"contents\":{\"delegationRecords\":[],\"noteOpenings\":[\"opening-1\"],\"receipts\":[\"receipt-1\"]},\"metadata\":{\"audienceId\":\"psp:example\",\"context\":\"0x0000000000000000000000000000000000000000000000000000000000000001\",\"expiresAt\":\"2026-10-04T00:05:00Z\",\"generatedAt\":\"2026-10-04T00:00:00Z\",\"recipientNonce\":\"0x1111111111111111111111111111111111111111111111111111111111111111\"},\"scope\":{\"bounds\":{\"notAfter\":\"1\",\"notBefore\":\"0\"},\"kind\":\"transition\"},\"version\":\"zkm:disclosure:v1\"}",
+    "blake2b512": "c8a6746db28d874b3564a3affc784139554d138d85def4011c1b4f0e9e449a616c2ae7f84e3ce5b60600d511de40690da28ee91dc9b774158faf42b64f006e91",
+    "digestLimbs": [
+      "c8a6746db28d874b3564a3affc784139",
+      "554d138d85def4011c1b4f0e9e449a61",
+      "6c2ae7f84e3ce5b60600d511de40690d",
+      "a28ee91dc9b774158faf42b64f006e91"
+    ],
+    "disclosureBinding": "0x2e015107243444a68fc546a60648a690aeae07509c769b6cf782d9886ac1eba2"
+  }
+}

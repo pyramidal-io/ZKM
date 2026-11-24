@@ -1,0 +1,9 @@
+[package]
+name = "zkm_mandate_transition"
+type = "bin"
+authors = ["ZKM Protocol"]
+compiler_version = ">=1.0.0"
+description = "ZKM §4.3 mandate transition circuit (mandate-only proof form)"
+
+[dependencies]
+zkm_lib = { path = "../zkm_lib" }

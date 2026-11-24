@@ -1,0 +1,9 @@
+[package]
+name = "zkm_revocation_insertion"
+type = "bin"
+authors = ["ZKM Protocol"]
+compiler_version = ">=1.0.0"
+description = "ZKM scheme-2 exclusion accumulator insertion companion"
+
+[dependencies]
+zkm_lib = { path = "../zkm_lib" }

@@ -1,0 +1,997 @@
+{
+    "format": "zka:protocol-family:vectors:v1",
+    "epoch": "zka:protocol-family:2026-11-19.1",
+    "cases": [
+        {
+            "case_id": "linkable-v1-accepted",
+            "expected": "accept",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v1",
+                "profile": "zkc:presentation:linkable:v1",
+                "binding_circuit": "zka_transfer_binding",
+                "transaction": "required",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_eddb6ad038bd9a1a79c6c1d29ebd7461da0383948b7e6c13dadd6553b97e4a7f",
+                "session_context_field": "0x2c4a3104b3f719739885aaf898b812ed3933e272a498a9cecb558f03f97e4a7b",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x2d6fd4c540c62c3fc26c019dde02b4791b0532faa4f8ea14ca9e4d8c69f2b3a1",
+                "presentation_context_derivation": {
+                    "algorithm": "sha-256-mod-bn254-fr",
+                    "canonicalization": "rfc8785-jcs",
+                    "trust_flow": "afp:trust-flow:bilateral",
+                    "preimage": {
+                        "kind": "afp:zkc-presentation-context:v2",
+                        "purpose": "afp:trust-flow:bilateral",
+                        "credential_subject_aid": "did:keri:holder-bilateral",
+                        "session_context": "X_eddb6ad038bd9a1a79c6c1d29ebd7461da0383948b7e6c13dadd6553b97e4a7f",
+                        "apr_verifier_aid": "did:keri:verifier-bilateral",
+                        "presentation_profile": "zkc:presentation:linkable:v1",
+                        "scope_policy": null
+                    },
+                    "sha256_digest": "0xbe9cc01de45b0cbceb5cd2c16286bd9093a0ebd412253bc896442e4839f2b3a4",
+                    "field_context": "0x2d6fd4c540c62c3fc26c019dde02b4791b0532faa4f8ea14ca9e4d8c69f2b3a1"
+                },
+                "presentation_result": {
+                    "proof_context": "0x2d6fd4c540c62c3fc26c019dde02b4791b0532faa4f8ea14ca9e4d8c69f2b3a1",
+                    "credential_subject_aid": "did:keri:holder-bilateral",
+                    "proven_predicates": [
+                        {
+                            "predicate_id": "zkc:proof:kyc:v1",
+                            "predicate_version": "1",
+                            "root_class": null,
+                            "root_authority_identifier": null,
+                            "attestation_window": null,
+                            "subject_aid": null
+                        }
+                    ]
+                },
+                "required_predicate_policy": {
+                    "accepted_predicate_ids": ["zkc:proof:kyc:v1"],
+                    "required_predicate_ids": ["zkc:proof:kyc:v1"],
+                    "accepted_instance_attestation_roots": []
+                },
+                "presentation_subject_assurance": {"basis": "issuer-authenticated-aid-claim"}
+            },
+            "zka": {
+                "transaction_present": true,
+                "coord_proof_present": false,
+                "binding_circuit": "zka_transfer_binding",
+                "bundle_context": "0x2c4a3104b3f719739885aaf898b812ed3933e272a498a9cecb558f03f97e4a7b",
+                "transaction_context": "0x2c4a3104b3f719739885aaf898b812ed3933e272a498a9cecb558f03f97e4a7b",
+                "note_subject": "did:keri:holder-bilateral"
+            },
+            "zkc": {
+                "proof_context": "0x2d6fd4c540c62c3fc26c019dde02b4791b0532faa4f8ea14ca9e4d8c69f2b3a1",
+                "presentation_context_derivation": {
+                    "algorithm": "sha-256-mod-bn254-fr",
+                    "canonicalization": "rfc8785-jcs",
+                    "trust_flow": "afp:trust-flow:bilateral",
+                    "preimage": {
+                        "kind": "afp:zkc-presentation-context:v2",
+                        "purpose": "afp:trust-flow:bilateral",
+                        "credential_subject_aid": "did:keri:holder-bilateral",
+                        "session_context": "X_eddb6ad038bd9a1a79c6c1d29ebd7461da0383948b7e6c13dadd6553b97e4a7f",
+                        "apr_verifier_aid": "did:keri:verifier-bilateral",
+                        "presentation_profile": "zkc:presentation:linkable:v1",
+                        "scope_policy": null
+                    },
+                    "sha256_digest": "0xbe9cc01de45b0cbceb5cd2c16286bd9093a0ebd412253bc896442e4839f2b3a4",
+                    "field_context": "0x2d6fd4c540c62c3fc26c019dde02b4791b0532faa4f8ea14ca9e4d8c69f2b3a1"
+                },
+                "profile": "zkc:presentation:linkable:v1",
+                "holder_commitment": "0x11",
+                "presentation_pseudonym": null,
+                "scope_id": null
+            },
+            "fixture_bindings": [
+                {
+                    "repository": "zka",
+                    "path": "tests/vectors/crypto/zkc_presentation_binding.json",
+                    "sha256": "sha256:ca7b10e0f7c753834eba61d1cc83329cb54cb2d53865d941e9b4c5a05d50cceb"
+                }
+            ]
+        },
+        {
+            "case_id": "anonymous-v2-coord-accepted",
+            "expected": "accept",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v2",
+                "profile": "zkc:presentation:anonymous:v1",
+                "binding_circuit": null,
+                "transaction": "forbidden",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000002",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264",
+                "presentation_context_derivation": {
+                    "algorithm": "sha-256-mod-bn254-fr",
+                    "canonicalization": "rfc8785-jcs",
+                    "trust_flow": "afp:trust-flow:telemetry",
+                    "preimage": {
+                        "kind": "afp:zkc-presentation-context:v2",
+                        "purpose": "afp:trust-flow:telemetry",
+                        "credential_subject_aid": "did:keri:holder-telemetry",
+                        "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002",
+                        "apr_verifier_aid": "did:keri:verifier-telemetry",
+                        "presentation_profile": "zkc:presentation:anonymous:v1",
+                        "scope_policy": null
+                    },
+                    "sha256_digest": "0x8fa9aaff405213e18e7cab76af982ea611cd4ec4995e1e16b9607f5de0402266",
+                    "field_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264"
+                },
+                "presentation_result": {
+                    "proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264",
+                    "credential_subject_aid": "did:keri:holder-telemetry",
+                    "proven_predicates": [
+                        {
+                            "predicate_id": "afp.telemetry.instance_attestation.v2",
+                            "predicate_version": "2",
+                            "root_class": "root:publisher-manifest",
+                            "root_authority_identifier": "E-accountable-authority",
+                            "attestation_window": {
+                                "starts_at": "2026-01-01T00:00:00Z",
+                                "ends_at": "2026-01-02T00:00:00Z"
+                            },
+                            "subject_aid": "did:keri:instance-telemetry"
+                        }
+                    ]
+                },
+                "required_predicate_policy": {
+                    "accepted_predicate_ids": ["afp.telemetry.instance_attestation.v2"],
+                    "required_predicate_ids": ["afp.telemetry.instance_attestation.v2"],
+                    "accepted_instance_attestation_roots": [
+                        {
+                            "root_class": "root:publisher-manifest",
+                            "root_authority_identifier": "E-accountable-authority"
+                        }
+                    ]
+                },
+                "presentation_subject_assurance": {"basis": "verified-companion-subject-binding-proof"}
+            },
+            "zka": {
+                "transaction_present": false,
+                "coord_proof_present": true,
+                "binding_circuit": null,
+                "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000002",
+                "coord_context": "0x0000000000000000000000000000000000000000000000000000000000000002"
+            },
+            "zkc": {
+                "proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264",
+                "presentation_context_derivation": {
+                    "algorithm": "sha-256-mod-bn254-fr",
+                    "canonicalization": "rfc8785-jcs",
+                    "trust_flow": "afp:trust-flow:telemetry",
+                    "preimage": {
+                        "kind": "afp:zkc-presentation-context:v2",
+                        "purpose": "afp:trust-flow:telemetry",
+                        "credential_subject_aid": "did:keri:holder-telemetry",
+                        "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002",
+                        "apr_verifier_aid": "did:keri:verifier-telemetry",
+                        "presentation_profile": "zkc:presentation:anonymous:v1",
+                        "scope_policy": null
+                    },
+                    "sha256_digest": "0x8fa9aaff405213e18e7cab76af982ea611cd4ec4995e1e16b9607f5de0402266",
+                    "field_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264"
+                },
+                "profile": "zkc:presentation:anonymous:v1",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x00",
+                "scope_id": "0x00"
+            },
+            "fixture_bindings": [
+                {
+                    "repository": "zka",
+                    "path": "tests/vectors/crypto/zkc_presentation_binding.json",
+                    "sha256": "sha256:ca7b10e0f7c753834eba61d1cc83329cb54cb2d53865d941e9b4c5a05d50cceb"
+                }
+            ]
+        },
+        {
+            "case_id": "scoped-v2-payment-accepted",
+            "expected": "accept",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v2",
+                "profile": "zkc:presentation:scoped:v1",
+                "binding_circuit": "zka_transfer_binding_v2",
+                "transaction": "required",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000003",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691",
+                "presentation_context_derivation": {
+                    "algorithm": "sha-256-mod-bn254-fr",
+                    "canonicalization": "rfc8785-jcs",
+                    "trust_flow": "afp:trust-flow:introduction",
+                    "preimage": {
+                        "kind": "afp:zkc-presentation-context:v2",
+                        "purpose": "afp:trust-flow:introduction",
+                        "credential_subject_aid": "did:keri:holder-introduction",
+                        "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003",
+                        "apr_verifier_aid": "did:keri:verifier-introduction",
+                        "presentation_profile": "zkc:presentation:scoped:v1",
+                        "scope_policy": "protocol:afp:709e96d033f8d5e4ba82d106ecef0d469b64d0639e4b25d8ca1ce1d5b9729933"
+                    },
+                    "sha256_digest": "0xf42f1b52c88985674f23753c4faf7afb033ef6e420f04717ab03e54baa504696",
+                    "field_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691"
+                },
+                "presentation_result": {
+                    "proof_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691",
+                    "credential_subject_aid": "did:keri:holder-introduction",
+                    "proven_predicates": [
+                        {
+                            "predicate_id": "zkc:proof:jurisdiction:v2",
+                            "predicate_version": "2",
+                            "root_class": null,
+                            "root_authority_identifier": null,
+                            "attestation_window": null,
+                            "subject_aid": null
+                        }
+                    ]
+                },
+                "required_predicate_policy": {
+                    "accepted_predicate_ids": ["zkc:proof:jurisdiction:v2"],
+                    "required_predicate_ids": ["zkc:proof:jurisdiction:v2"],
+                    "accepted_instance_attestation_roots": []
+                },
+                "presentation_subject_assurance": {"basis": "issuer-authenticated-aid-claim"}
+            },
+            "zka": {
+                "transaction_present": true,
+                "coord_proof_present": false,
+                "binding_circuit": "zka_transfer_binding_v2",
+                "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000003",
+                "transaction_context": "0x0000000000000000000000000000000000000000000000000000000000000003"
+            },
+            "zkc": {
+                "proof_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691",
+                "presentation_context_derivation": {
+                    "algorithm": "sha-256-mod-bn254-fr",
+                    "canonicalization": "rfc8785-jcs",
+                    "trust_flow": "afp:trust-flow:introduction",
+                    "preimage": {
+                        "kind": "afp:zkc-presentation-context:v2",
+                        "purpose": "afp:trust-flow:introduction",
+                        "credential_subject_aid": "did:keri:holder-introduction",
+                        "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003",
+                        "apr_verifier_aid": "did:keri:verifier-introduction",
+                        "presentation_profile": "zkc:presentation:scoped:v1",
+                        "scope_policy": "protocol:afp:709e96d033f8d5e4ba82d106ecef0d469b64d0639e4b25d8ca1ce1d5b9729933"
+                    },
+                    "sha256_digest": "0xf42f1b52c88985674f23753c4faf7afb033ef6e420f04717ab03e54baa504696",
+                    "field_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691"
+                },
+                "profile": "zkc:presentation:scoped:v1",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x22dfa15cbccd21643c573b1123e29ab0ba4a7463347e376a7fba2f5832f03ae2",
+                "scope_id": "0x2632aaf1e51423d6eab07aa448f245c91490f34a5b3e6744e47f584fab96c4d5"
+            },
+            "fixture_bindings": [
+                {
+                    "repository": "zka",
+                    "path": "tests/vectors/crypto/zkc_presentation_binding.json",
+                    "sha256": "sha256:ca7b10e0f7c753834eba61d1cc83329cb54cb2d53865d941e9b4c5a05d50cceb"
+                }
+            ]
+        },
+        {
+            "case_id": "context-mismatch",
+            "expected": "reject",
+            "failure_code": "SESSION_CONTEXT_MISMATCH",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v2",
+                "profile": "zkc:presentation:scoped:v1",
+                "binding_circuit": null,
+                "transaction": "forbidden",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000004",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000004",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x00000000000000000000000000000000000000000000000000000000000000a4"
+            },
+            "zka": {
+                "transaction_present": false,
+                "coord_proof_present": true,
+                "binding_circuit": null,
+                "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000004",
+                "coord_context": "0x0000000000000000000000000000000000000000000000000000000000000005"
+            },
+            "zkc": {
+                "proof_context": "0x00000000000000000000000000000000000000000000000000000000000000a4",
+                "profile": "zkc:presentation:scoped:v1",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x21",
+                "scope_id": "0x31"
+            },
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "profile-envelope-mismatch",
+            "expected": "reject",
+            "failure_code": "PROFILE_MISMATCH",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v1",
+                "profile": "zkc:presentation:scoped:v1",
+                "binding_circuit": null,
+                "transaction": "forbidden",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000006",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000006",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x00000000000000000000000000000000000000000000000000000000000000a6"
+            },
+            "zka": {
+                "transaction_present": false,
+                "coord_proof_present": true,
+                "binding_circuit": null,
+                "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000006",
+                "coord_context": "0x0000000000000000000000000000000000000000000000000000000000000006"
+            },
+            "zkc": {
+                "proof_context": "0x00000000000000000000000000000000000000000000000000000000000000a6",
+                "profile": "zkc:presentation:scoped:v1",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x22",
+                "scope_id": "0x32"
+            },
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "scope-mismatch",
+            "expected": "reject",
+            "failure_code": "SCOPE_MISMATCH",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v2",
+                "profile": "zkc:presentation:scoped:v1",
+                "binding_circuit": null,
+                "transaction": "forbidden",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000007",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000007",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x00000000000000000000000000000000000000000000000000000000000000a7",
+                "scope_id": "0x37"
+            },
+            "zka": {
+                "transaction_present": false,
+                "coord_proof_present": true,
+                "binding_circuit": null,
+                "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000007",
+                "coord_context": "0x0000000000000000000000000000000000000000000000000000000000000007"
+            },
+            "zkc": {
+                "proof_context": "0x00000000000000000000000000000000000000000000000000000000000000a7",
+                "profile": "zkc:presentation:scoped:v1",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x27",
+                "scope_id": "0x38"
+            },
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "subject-mismatch",
+            "expected": "reject",
+            "failure_code": "SUBJECT_MISMATCH",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v2",
+                "profile": "zkc:presentation:scoped:v1",
+                "binding_circuit": "zka_transfer_binding_v2",
+                "transaction": "required",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000008",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000008",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x00000000000000000000000000000000000000000000000000000000000000a8",
+                "presenter_aid": "did:keri:holder-a"
+            },
+            "zka": {
+                "transaction_present": true,
+                "coord_proof_present": false,
+                "binding_circuit": "zka_transfer_binding_v2",
+                "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000008",
+                "transaction_context": "0x0000000000000000000000000000000000000000000000000000000000000008",
+                "note_subject": "holder-b"
+            },
+            "zkc": {
+                "proof_context": "0x00000000000000000000000000000000000000000000000000000000000000a8",
+                "profile": "zkc:presentation:scoped:v1",
+                "credential_subject": "holder-a",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x28",
+                "scope_id": "0x38"
+            },
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "session-replay",
+            "expected": "reject",
+            "failure_code": "SESSION_CONTEXT_MISMATCH",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v2",
+                "profile": "zkc:presentation:anonymous:v1",
+                "binding_circuit": null,
+                "transaction": "forbidden",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000009",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000009",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x00000000000000000000000000000000000000000000000000000000000000a9",
+                "original_session_context": "X_000000000000000000000000000000000000000000000000000000000000000a"
+            },
+            "zka": {
+                "transaction_present": false,
+                "coord_proof_present": true,
+                "binding_circuit": null,
+                "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000009",
+                "coord_context": "0x000000000000000000000000000000000000000000000000000000000000000a"
+            },
+            "zkc": {
+                "proof_context": "0x00000000000000000000000000000000000000000000000000000000000000a9",
+                "profile": "zkc:presentation:anonymous:v1",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x00",
+                "scope_id": "0x00"
+            },
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "payment-binding-without-transaction",
+            "expected": "reject",
+            "failure_code": "TRANSACTION_REQUIRED",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v2",
+                "profile": "zkc:presentation:scoped:v1",
+                "binding_circuit": "zka_transfer_binding_v2",
+                "transaction": "required",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_000000000000000000000000000000000000000000000000000000000000000b",
+                "session_context_field": "0x000000000000000000000000000000000000000000000000000000000000000b",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x00000000000000000000000000000000000000000000000000000000000000ab"
+            },
+            "zka": {
+                "transaction_present": false,
+                "coord_proof_present": true,
+                "binding_circuit": "zka_transfer_binding_v2",
+                "bundle_context": "0x000000000000000000000000000000000000000000000000000000000000000b",
+                "coord_context": "0x000000000000000000000000000000000000000000000000000000000000000b"
+            },
+            "zkc": {
+                "proof_context": "0x00000000000000000000000000000000000000000000000000000000000000ab",
+                "profile": "zkc:presentation:scoped:v1",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x2b",
+                "scope_id": "0x3b"
+            },
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "unknown-version",
+            "expected": "reject",
+            "failure_code": "NO_COMPATIBILITY_MATCH",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v3",
+                "profile": "zkc:presentation:anonymous:v1",
+                "binding_circuit": null,
+                "transaction": "forbidden",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_000000000000000000000000000000000000000000000000000000000000000c",
+                "session_context_field": "0x000000000000000000000000000000000000000000000000000000000000000c",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x00000000000000000000000000000000000000000000000000000000000000ac"
+            },
+            "zka": {
+                "transaction_present": false,
+                "coord_proof_present": true,
+                "binding_circuit": null,
+                "bundle_context": "0x000000000000000000000000000000000000000000000000000000000000000c",
+                "coord_context": "0x000000000000000000000000000000000000000000000000000000000000000c"
+            },
+            "zkc": {
+                "proof_context": "0x00000000000000000000000000000000000000000000000000000000000000ac",
+                "profile": "zkc:presentation:anonymous:v1",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x00",
+                "scope_id": "0x00"
+            },
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "ambiguous-version",
+            "expected": "reject",
+            "failure_code": "AMBIGUOUS_COMPATIBILITY_MATCH",
+            "manifest_mutation": {
+                "duplicate_combination_id": "anonymous-v2-coordination"
+            },
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v2",
+                "profile": "zkc:presentation:anonymous:v1",
+                "binding_circuit": null,
+                "transaction": "forbidden",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_000000000000000000000000000000000000000000000000000000000000000d",
+                "session_context_field": "0x000000000000000000000000000000000000000000000000000000000000000d",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x00000000000000000000000000000000000000000000000000000000000000ad"
+            },
+            "zka": {
+                "transaction_present": false,
+                "coord_proof_present": true,
+                "binding_circuit": null,
+                "bundle_context": "0x000000000000000000000000000000000000000000000000000000000000000d",
+                "coord_context": "0x000000000000000000000000000000000000000000000000000000000000000d"
+            },
+            "zkc": {
+                "proof_context": "0x00000000000000000000000000000000000000000000000000000000000000ad",
+                "profile": "zkc:presentation:anonymous:v1",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x00",
+                "scope_id": "0x00"
+            },
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "empty-coordination-bundle",
+            "expected": "reject",
+            "failure_code": "EMPTY_BUNDLE",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v2",
+                "profile": "zkc:presentation:anonymous:v1",
+                "binding_circuit": null,
+                "transaction": "forbidden",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_000000000000000000000000000000000000000000000000000000000000000e",
+                "session_context_field": "0x000000000000000000000000000000000000000000000000000000000000000e",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x00000000000000000000000000000000000000000000000000000000000000ae"
+            },
+            "zka": {
+                "transaction_present": false,
+                "coord_proof_present": false,
+                "binding_circuit": null,
+                "bundle_context": "0x000000000000000000000000000000000000000000000000000000000000000e"
+            },
+            "zkc": {
+                "proof_context": "0x00000000000000000000000000000000000000000000000000000000000000ae",
+                "profile": "zkc:presentation:anonymous:v1",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x00",
+                "scope_id": "0x00"
+            },
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "presentation-purpose-context-mismatch",
+            "expected": "reject",
+            "failure_code": "PRESENTATION_CONTEXT_MISMATCH",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v2",
+                "profile": "zkc:presentation:anonymous:v1",
+                "binding_circuit": null,
+                "transaction": "forbidden",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_000000000000000000000000000000000000000000000000000000000000000f",
+                "session_context_field": "0x000000000000000000000000000000000000000000000000000000000000000f",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x18b9ceabc076ec100f595f900c32643b6d200cf71abb536b3291b7ba1668b7bb",
+                "presentation_context_derivation": {
+                    "algorithm": "sha-256-mod-bn254-fr",
+                    "canonicalization": "rfc8785-jcs",
+                    "trust_flow": "afp:trust-flow:bilateral",
+                    "preimage": {
+                        "kind": "afp:zkc-presentation-context:v2",
+                        "purpose": "afp:trust-flow:bilateral",
+                        "credential_subject_aid": "did:keri:holder-bilateral",
+                        "session_context": "X_000000000000000000000000000000000000000000000000000000000000000f",
+                        "apr_verifier_aid": "did:keri:verifier-bilateral",
+                        "presentation_profile": "zkc:presentation:anonymous:v1",
+                        "scope_policy": null
+                    },
+                    "sha256_digest": "0xda4b0877453d6cb6f09a766a1237c5b00defae1901a115b042198e09d668b7bf",
+                    "field_context": "0x18b9ceabc076ec100f595f900c32643b6d200cf71abb536b3291b7ba1668b7bb"
+                },
+                "presentation_result": {
+                    "proof_context": "0x18b9ceabc076ec100f595f900c32643b6d200cf71abb536b3291b7ba1668b7bb",
+                    "credential_subject_aid": "did:keri:holder-bilateral",
+                    "proven_predicates": [
+                        {
+                            "predicate_id": "zkc:proof:kyc:v2",
+                            "predicate_version": "2",
+                            "root_class": null,
+                            "root_authority_identifier": null,
+                            "attestation_window": null,
+                            "subject_aid": null
+                        }
+                    ]
+                },
+                "required_predicate_policy": {
+                    "accepted_predicate_ids": ["zkc:proof:kyc:v2"],
+                    "required_predicate_ids": ["zkc:proof:kyc:v2"],
+                    "accepted_instance_attestation_roots": []
+                },
+                "presentation_subject_assurance": {"basis": "issuer-authenticated-aid-claim"}
+            },
+            "zka": {
+                "transaction_present": false,
+                "coord_proof_present": true,
+                "binding_circuit": null,
+                "bundle_context": "0x000000000000000000000000000000000000000000000000000000000000000f",
+                "coord_context": "0x000000000000000000000000000000000000000000000000000000000000000f"
+            },
+            "zkc": {
+                "proof_context": "0x29ca79e65846c5daaa5596af7242ffbdc0e962eaf47bdc3f5842b83286351440",
+                "presentation_context_derivation": {
+                    "algorithm": "sha-256-mod-bn254-fr",
+                    "canonicalization": "rfc8785-jcs",
+                    "trust_flow": "afp:trust-flow:telemetry",
+                    "preimage": {
+                        "kind": "afp:zkc-presentation-context:v2",
+                        "purpose": "afp:trust-flow:telemetry",
+                        "credential_subject_aid": "did:keri:holder-telemetry",
+                        "session_context": "X_000000000000000000000000000000000000000000000000000000000000000f",
+                        "apr_verifier_aid": "did:keri:verifier-telemetry",
+                        "presentation_profile": "zkc:presentation:anonymous:v1",
+                        "scope_policy": null
+                    },
+                    "sha256_digest": "0x5a2ec8593978660462a5dc65f3c4581ae91d4b336e354cd09c24adc676351441",
+                    "field_context": "0x29ca79e65846c5daaa5596af7242ffbdc0e962eaf47bdc3f5842b83286351440"
+                },
+                "profile": "zkc:presentation:anonymous:v1",
+                "holder_commitment": null,
+                "presentation_pseudonym": "0x00",
+                "scope_id": "0x00"
+            },
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "verified-subject-mismatch",
+            "expected": "reject",
+            "failure_code": "VERIFIED_SUBJECT_MISMATCH",
+            "compatibility": {
+                "zka": "0.9.2-draft",
+                "zkc": "0.4.1-draft",
+                "afp": "0.3.14-draft",
+                "kdc": "1.0.3",
+                "zkm": "0.1.0-draft (rev 13)",
+                "bundle": "zka:bundle:v1",
+                "proof": "zkc:proof:v1",
+                "profile": "zkc:presentation:linkable:v1",
+                "binding_circuit": "zka_transfer_binding",
+                "transaction": "required",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2"
+            },
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_eddb6ad038bd9a1a79c6c1d29ebd7461da0383948b7e6c13dadd6553b97e4a7f",
+                "session_context_field": "0x2c4a3104b3f719739885aaf898b812ed3933e272a498a9cecb558f03f97e4a7b",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x2d6fd4c540c62c3fc26c019dde02b4791b0532faa4f8ea14ca9e4d8c69f2b3a1",
+                "presentation_context_derivation": {
+                    "algorithm": "sha-256-mod-bn254-fr",
+                    "canonicalization": "rfc8785-jcs",
+                    "trust_flow": "afp:trust-flow:bilateral",
+                    "preimage": {
+                        "kind": "afp:zkc-presentation-context:v2",
+                        "purpose": "afp:trust-flow:bilateral",
+                        "credential_subject_aid": "did:keri:holder-bilateral",
+                        "session_context": "X_eddb6ad038bd9a1a79c6c1d29ebd7461da0383948b7e6c13dadd6553b97e4a7f",
+                        "apr_verifier_aid": "did:keri:verifier-bilateral",
+                        "presentation_profile": "zkc:presentation:linkable:v1",
+                        "scope_policy": null
+                    },
+                    "sha256_digest": "0xbe9cc01de45b0cbceb5cd2c16286bd9093a0ebd412253bc896442e4839f2b3a4",
+                    "field_context": "0x2d6fd4c540c62c3fc26c019dde02b4791b0532faa4f8ea14ca9e4d8c69f2b3a1"
+                },
+                "presentation_result": {
+                    "proof_context": "0x2d6fd4c540c62c3fc26c019dde02b4791b0532faa4f8ea14ca9e4d8c69f2b3a1",
+                    "credential_subject_aid": "did:keri:holder-arbitrary-responder",
+                    "proven_predicates": [
+                        {
+                            "predicate_id": "zkc:proof:kyc:v1",
+                            "predicate_version": "1",
+                            "root_class": null,
+                            "root_authority_identifier": null,
+                            "attestation_window": null,
+                            "subject_aid": null
+                        }
+                    ]
+                },
+                "required_predicate_policy": {
+                    "accepted_predicate_ids": ["zkc:proof:kyc:v1"],
+                    "required_predicate_ids": ["zkc:proof:kyc:v1"],
+                    "accepted_instance_attestation_roots": []
+                },
+                "presentation_subject_assurance": {"basis": "issuer-authenticated-aid-claim"}
+            },
+            "zka": {
+                "transaction_present": true,
+                "coord_proof_present": false,
+                "binding_circuit": "zka_transfer_binding",
+                "bundle_context": "0x2c4a3104b3f719739885aaf898b812ed3933e272a498a9cecb558f03f97e4a7b",
+                "transaction_context": "0x2c4a3104b3f719739885aaf898b812ed3933e272a498a9cecb558f03f97e4a7b"
+            },
+            "zkc": {
+                "proof_context": "0x2d6fd4c540c62c3fc26c019dde02b4791b0532faa4f8ea14ca9e4d8c69f2b3a1",
+                "presentation_context_derivation": {
+                    "algorithm": "sha-256-mod-bn254-fr",
+                    "canonicalization": "rfc8785-jcs",
+                    "trust_flow": "afp:trust-flow:bilateral",
+                    "preimage": {
+                        "kind": "afp:zkc-presentation-context:v2",
+                        "purpose": "afp:trust-flow:bilateral",
+                        "credential_subject_aid": "did:keri:holder-bilateral",
+                        "session_context": "X_eddb6ad038bd9a1a79c6c1d29ebd7461da0383948b7e6c13dadd6553b97e4a7f",
+                        "apr_verifier_aid": "did:keri:verifier-bilateral",
+                        "presentation_profile": "zkc:presentation:linkable:v1",
+                        "scope_policy": null
+                    },
+                    "sha256_digest": "0xbe9cc01de45b0cbceb5cd2c16286bd9093a0ebd412253bc896442e4839f2b3a4",
+                    "field_context": "0x2d6fd4c540c62c3fc26c019dde02b4791b0532faa4f8ea14ca9e4d8c69f2b3a1"
+                },
+                "profile": "zkc:presentation:linkable:v1",
+                "holder_commitment": "0x11",
+                "presentation_pseudonym": null,
+                "scope_id": null
+            },
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "presentation-meaning-mismatch",
+            "expected": "reject",
+            "failure_code": "VERIFIED_PREDICATE_POLICY_MISMATCH",
+            "compatibility": {"zka": "0.9.2-draft", "zkc": "0.4.1-draft", "afp": "0.3.14-draft", "kdc": "1.0.3", "zkm": "0.1.0-draft (rev 13)", "bundle": "zka:bundle:v1", "proof": "zkc:proof:v2", "profile": "zkc:presentation:scoped:v1", "binding_circuit": "zka_transfer_binding_v2", "transaction": "required", "presentation_context_mode": "afp:zkc-presentation-context:v2"},
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000003",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691",
+                "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:introduction", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:introduction", "credential_subject_aid": "did:keri:holder-introduction", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003", "apr_verifier_aid": "did:keri:verifier-introduction", "presentation_profile": "zkc:presentation:scoped:v1", "scope_policy": "protocol:afp:709e96d033f8d5e4ba82d106ecef0d469b64d0639e4b25d8ca1ce1d5b9729933"}, "sha256_digest": "0xf42f1b52c88985674f23753c4faf7afb033ef6e420f04717ab03e54baa504696", "field_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691"},
+                "presentation_result": {"proof_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691", "credential_subject_aid": "did:keri:holder-introduction", "proven_predicates": [{"predicate_id": "zkc:proof:kyc:v2", "predicate_version": "2", "root_class": null, "root_authority_identifier": null, "attestation_window": null, "subject_aid": null}]},
+                "required_predicate_policy": {"accepted_predicate_ids": ["zkc:proof:jurisdiction:v2"], "required_predicate_ids": ["zkc:proof:jurisdiction:v2"], "accepted_instance_attestation_roots": []},
+                "presentation_subject_assurance": {"basis": "issuer-authenticated-aid-claim"}
+            },
+            "zka": {"transaction_present": true, "coord_proof_present": false, "binding_circuit": "zka_transfer_binding_v2", "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000003", "transaction_context": "0x0000000000000000000000000000000000000000000000000000000000000003"},
+            "zkc": {"proof_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691", "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:introduction", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:introduction", "credential_subject_aid": "did:keri:holder-introduction", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003", "apr_verifier_aid": "did:keri:verifier-introduction", "presentation_profile": "zkc:presentation:scoped:v1", "scope_policy": "protocol:afp:709e96d033f8d5e4ba82d106ecef0d469b64d0639e4b25d8ca1ce1d5b9729933"}, "sha256_digest": "0xf42f1b52c88985674f23753c4faf7afb033ef6e420f04717ab03e54baa504696", "field_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691"}, "profile": "zkc:presentation:scoped:v1", "holder_commitment": null, "presentation_pseudonym": "0x22dfa15cbccd21643c573b1123e29ab0ba4a7463347e376a7fba2f5832f03ae2", "scope_id": "0x2632aaf1e51423d6eab07aa448f245c91490f34a5b3e6744e47f584fab96c4d5"},
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "presentation-empty-predicate-set",
+            "expected": "reject",
+            "failure_code": "VERIFIED_PREDICATE_REQUIRED",
+            "compatibility": {"zka": "0.9.2-draft", "zkc": "0.4.1-draft", "afp": "0.3.14-draft", "kdc": "1.0.3", "zkm": "0.1.0-draft (rev 13)", "bundle": "zka:bundle:v1", "proof": "zkc:proof:v2", "profile": "zkc:presentation:scoped:v1", "binding_circuit": "zka_transfer_binding_v2", "transaction": "required", "presentation_context_mode": "afp:zkc-presentation-context:v2"},
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000003",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691",
+                "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:introduction", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:introduction", "credential_subject_aid": "did:keri:holder-introduction", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003", "apr_verifier_aid": "did:keri:verifier-introduction", "presentation_profile": "zkc:presentation:scoped:v1", "scope_policy": "protocol:afp:709e96d033f8d5e4ba82d106ecef0d469b64d0639e4b25d8ca1ce1d5b9729933"}, "sha256_digest": "0xf42f1b52c88985674f23753c4faf7afb033ef6e420f04717ab03e54baa504696", "field_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691"},
+                "presentation_result": {"proof_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691", "credential_subject_aid": "did:keri:holder-introduction", "proven_predicates": []},
+                "required_predicate_policy": {"accepted_predicate_ids": ["zkc:proof:jurisdiction:v2"], "required_predicate_ids": ["zkc:proof:jurisdiction:v2"], "accepted_instance_attestation_roots": []},
+                "presentation_subject_assurance": {"basis": "issuer-authenticated-aid-claim"}
+            },
+            "zka": {"transaction_present": true, "coord_proof_present": false, "binding_circuit": "zka_transfer_binding_v2", "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000003", "transaction_context": "0x0000000000000000000000000000000000000000000000000000000000000003"},
+            "zkc": {"proof_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691", "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:introduction", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:introduction", "credential_subject_aid": "did:keri:holder-introduction", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003", "apr_verifier_aid": "did:keri:verifier-introduction", "presentation_profile": "zkc:presentation:scoped:v1", "scope_policy": "protocol:afp:709e96d033f8d5e4ba82d106ecef0d469b64d0639e4b25d8ca1ce1d5b9729933"}, "sha256_digest": "0xf42f1b52c88985674f23753c4faf7afb033ef6e420f04717ab03e54baa504696", "field_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691"}, "profile": "zkc:presentation:scoped:v1", "holder_commitment": null, "presentation_pseudonym": "0x22dfa15cbccd21643c573b1123e29ab0ba4a7463347e376a7fba2f5832f03ae2", "scope_id": "0x2632aaf1e51423d6eab07aa448f245c91490f34a5b3e6744e47f584fab96c4d5"},
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "presentation-flow-relabel",
+            "expected": "reject",
+            "failure_code": "PRESENTATION_CONTEXT_MISMATCH",
+            "compatibility": {"zka": "0.9.2-draft", "zkc": "0.4.1-draft", "afp": "0.3.14-draft", "kdc": "1.0.3", "zkm": "0.1.0-draft (rev 13)", "bundle": "zka:bundle:v1", "proof": "zkc:proof:v2", "profile": "zkc:presentation:scoped:v1", "binding_circuit": "zka_transfer_binding_v2", "transaction": "required", "presentation_context_mode": "afp:zkc-presentation-context:v2"},
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000003",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x192755c54a07691c79d84408a4752b85eaaf3076f8f708462cfa9bdbdccba9f1",
+                "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:open-federation", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:open-federation", "credential_subject_aid": "did:keri:holder-introduction", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003", "apr_verifier_aid": "did:keri:verifier-introduction", "presentation_profile": "zkc:presentation:scoped:v1", "scope_policy": "protocol:afp:709e96d033f8d5e4ba82d106ecef0d469b64d0639e4b25d8ca1ce1d5b9729933"}, "sha256_digest": "0x498ba4382b390946322889bf25f683e312e318bf72b078d770dc916fcccba9f2", "field_context": "0x192755c54a07691c79d84408a4752b85eaaf3076f8f708462cfa9bdbdccba9f1"},
+                "presentation_result": {"proof_context": "0x192755c54a07691c79d84408a4752b85eaaf3076f8f708462cfa9bdbdccba9f1", "credential_subject_aid": "did:keri:holder-introduction", "proven_predicates": [{"predicate_id": "zkc:proof:jurisdiction:v2", "predicate_version": "2", "root_class": null, "root_authority_identifier": null, "attestation_window": null, "subject_aid": null}]},
+                "required_predicate_policy": {"accepted_predicate_ids": ["zkc:proof:jurisdiction:v2"], "required_predicate_ids": ["zkc:proof:jurisdiction:v2"], "accepted_instance_attestation_roots": []},
+                "presentation_subject_assurance": {"basis": "issuer-authenticated-aid-claim"}
+            },
+            "zka": {"transaction_present": true, "coord_proof_present": false, "binding_circuit": "zka_transfer_binding_v2", "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000003", "transaction_context": "0x0000000000000000000000000000000000000000000000000000000000000003"},
+            "zkc": {"proof_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691", "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:introduction", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:introduction", "credential_subject_aid": "did:keri:holder-introduction", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000003", "apr_verifier_aid": "did:keri:verifier-introduction", "presentation_profile": "zkc:presentation:scoped:v1", "scope_policy": "protocol:afp:709e96d033f8d5e4ba82d106ecef0d469b64d0639e4b25d8ca1ce1d5b9729933"}, "sha256_digest": "0xf42f1b52c88985674f23753c4faf7afb033ef6e420f04717ab03e54baa504696", "field_context": "0x0239931462916496b59218abc828c1293a3b6d79c0511441579a1967fa504691"}, "profile": "zkc:presentation:scoped:v1", "holder_commitment": null, "presentation_pseudonym": "0x22dfa15cbccd21643c573b1123e29ab0ba4a7463347e376a7fba2f5832f03ae2", "scope_id": "0x2632aaf1e51423d6eab07aa448f245c91490f34a5b3e6744e47f584fab96c4d5"},
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "instance-attestation-unknown-root-class",
+            "expected": "reject",
+            "failure_code": "INSTANCE_ATTESTATION_ROOT_CLASS_UNSUPPORTED",
+            "compatibility": {"zka": "0.9.2-draft", "zkc": "0.4.1-draft", "afp": "0.3.14-draft", "kdc": "1.0.3", "zkm": "0.1.0-draft (rev 13)", "bundle": "zka:bundle:v1", "proof": "zkc:proof:v2", "profile": "zkc:presentation:anonymous:v1", "binding_circuit": null, "transaction": "forbidden", "presentation_context_mode": "afp:zkc-presentation-context:v2"},
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000002",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264",
+                "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:telemetry", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:telemetry", "credential_subject_aid": "did:keri:holder-telemetry", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002", "apr_verifier_aid": "did:keri:verifier-telemetry", "presentation_profile": "zkc:presentation:anonymous:v1", "scope_policy": null}, "sha256_digest": "0x8fa9aaff405213e18e7cab76af982ea611cd4ec4995e1e16b9607f5de0402266", "field_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264"},
+                "presentation_result": {"proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264", "credential_subject_aid": "did:keri:holder-telemetry", "proven_predicates": [{"predicate_id": "afp.telemetry.instance_attestation.v2", "predicate_version": "2", "root_class": "root:unregistered", "root_authority_identifier": "E-accountable-authority", "attestation_window": {"starts_at": "2026-01-01T00:00:00Z", "ends_at": "2026-01-02T00:00:00Z"}, "subject_aid": "did:keri:instance-telemetry"}]},
+                "required_predicate_policy": {"accepted_predicate_ids": ["afp.telemetry.instance_attestation.v2"], "required_predicate_ids": ["afp.telemetry.instance_attestation.v2"], "accepted_instance_attestation_roots": [{"root_class": "root:publisher-manifest", "root_authority_identifier": "E-accountable-authority"}]},
+                "presentation_subject_assurance": {"basis": "verified-companion-subject-binding-proof"}
+            },
+            "zka": {"transaction_present": false, "coord_proof_present": true, "binding_circuit": null, "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000002", "coord_context": "0x0000000000000000000000000000000000000000000000000000000000000002"},
+            "zkc": {"proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264", "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:telemetry", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:telemetry", "credential_subject_aid": "did:keri:holder-telemetry", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002", "apr_verifier_aid": "did:keri:verifier-telemetry", "presentation_profile": "zkc:presentation:anonymous:v1", "scope_policy": null}, "sha256_digest": "0x8fa9aaff405213e18e7cab76af982ea611cd4ec4995e1e16b9607f5de0402266", "field_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264"}, "profile": "zkc:presentation:anonymous:v1", "holder_commitment": null, "presentation_pseudonym": "0x00", "scope_id": "0x00"},
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "instance-attestation-unaccepted-root",
+            "expected": "reject",
+            "failure_code": "INSTANCE_ATTESTATION_ROOT_UNACCEPTED",
+            "compatibility": {"zka": "0.9.2-draft", "zkc": "0.4.1-draft", "afp": "0.3.14-draft", "kdc": "1.0.3", "zkm": "0.1.0-draft (rev 13)", "bundle": "zka:bundle:v1", "proof": "zkc:proof:v2", "profile": "zkc:presentation:anonymous:v1", "binding_circuit": null, "transaction": "forbidden", "presentation_context_mode": "afp:zkc-presentation-context:v2"},
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000002",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264",
+                "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:telemetry", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:telemetry", "credential_subject_aid": "did:keri:holder-telemetry", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002", "apr_verifier_aid": "did:keri:verifier-telemetry", "presentation_profile": "zkc:presentation:anonymous:v1", "scope_policy": null}, "sha256_digest": "0x8fa9aaff405213e18e7cab76af982ea611cd4ec4995e1e16b9607f5de0402266", "field_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264"},
+                "presentation_result": {"proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264", "credential_subject_aid": "did:keri:holder-telemetry", "proven_predicates": [{"predicate_id": "afp.telemetry.instance_attestation.v2", "predicate_version": "2", "root_class": "root:publisher-manifest", "root_authority_identifier": "E-unaccepted-authority", "attestation_window": {"starts_at": "2026-01-01T00:00:00Z", "ends_at": "2026-01-02T00:00:00Z"}, "subject_aid": "did:keri:instance-telemetry"}]},
+                "required_predicate_policy": {"accepted_predicate_ids": ["afp.telemetry.instance_attestation.v2"], "required_predicate_ids": ["afp.telemetry.instance_attestation.v2"], "accepted_instance_attestation_roots": [{"root_class": "root:publisher-manifest", "root_authority_identifier": "E-accountable-authority"}]},
+                "presentation_subject_assurance": {"basis": "verified-companion-subject-binding-proof"}
+            },
+            "zka": {"transaction_present": false, "coord_proof_present": true, "binding_circuit": null, "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000002", "coord_context": "0x0000000000000000000000000000000000000000000000000000000000000002"},
+            "zkc": {"proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264", "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:telemetry", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:telemetry", "credential_subject_aid": "did:keri:holder-telemetry", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002", "apr_verifier_aid": "did:keri:verifier-telemetry", "presentation_profile": "zkc:presentation:anonymous:v1", "scope_policy": null}, "sha256_digest": "0x8fa9aaff405213e18e7cab76af982ea611cd4ec4995e1e16b9607f5de0402266", "field_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264"}, "profile": "zkc:presentation:anonymous:v1", "holder_commitment": null, "presentation_pseudonym": "0x00", "scope_id": "0x00"},
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "instance-attestation-missing-window",
+            "expected": "reject",
+            "failure_code": "INSTANCE_ATTESTATION_WINDOW_INVALID",
+            "compatibility": {"zka": "0.9.2-draft", "zkc": "0.4.1-draft", "afp": "0.3.14-draft", "kdc": "1.0.3", "zkm": "0.1.0-draft (rev 13)", "bundle": "zka:bundle:v1", "proof": "zkc:proof:v2", "profile": "zkc:presentation:anonymous:v1", "binding_circuit": null, "transaction": "forbidden", "presentation_context_mode": "afp:zkc-presentation-context:v2"},
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000002",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264",
+                "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:telemetry", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:telemetry", "credential_subject_aid": "did:keri:holder-telemetry", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002", "apr_verifier_aid": "did:keri:verifier-telemetry", "presentation_profile": "zkc:presentation:anonymous:v1", "scope_policy": null}, "sha256_digest": "0x8fa9aaff405213e18e7cab76af982ea611cd4ec4995e1e16b9607f5de0402266", "field_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264"},
+                "presentation_result": {"proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264", "credential_subject_aid": "did:keri:holder-telemetry", "proven_predicates": [{"predicate_id": "afp.telemetry.instance_attestation.v2", "predicate_version": "2", "root_class": "root:publisher-manifest", "root_authority_identifier": "E-accountable-authority", "attestation_window": null, "subject_aid": "did:keri:instance-telemetry"}]},
+                "required_predicate_policy": {"accepted_predicate_ids": ["afp.telemetry.instance_attestation.v2"], "required_predicate_ids": ["afp.telemetry.instance_attestation.v2"], "accepted_instance_attestation_roots": [{"root_class": "root:publisher-manifest", "root_authority_identifier": "E-accountable-authority"}]},
+                "presentation_subject_assurance": {"basis": "verified-companion-subject-binding-proof"}
+            },
+            "zka": {"transaction_present": false, "coord_proof_present": true, "binding_circuit": null, "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000002", "coord_context": "0x0000000000000000000000000000000000000000000000000000000000000002"},
+            "zkc": {"proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264", "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:telemetry", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:telemetry", "credential_subject_aid": "did:keri:holder-telemetry", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002", "apr_verifier_aid": "did:keri:verifier-telemetry", "presentation_profile": "zkc:presentation:anonymous:v1", "scope_policy": null}, "sha256_digest": "0x8fa9aaff405213e18e7cab76af982ea611cd4ec4995e1e16b9607f5de0402266", "field_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264"}, "profile": "zkc:presentation:anonymous:v1", "holder_commitment": null, "presentation_pseudonym": "0x00", "scope_id": "0x00"},
+            "fixture_bindings": []
+        },
+        {
+            "case_id": "instance-attestation-missing-subject",
+            "expected": "reject",
+            "failure_code": "INSTANCE_ATTESTATION_SUBJECT_INVALID",
+            "compatibility": {"zka": "0.9.2-draft", "zkc": "0.4.1-draft", "afp": "0.3.14-draft", "kdc": "1.0.3", "zkm": "0.1.0-draft (rev 13)", "bundle": "zka:bundle:v1", "proof": "zkc:proof:v2", "profile": "zkc:presentation:anonymous:v1", "binding_circuit": null, "transaction": "forbidden", "presentation_context_mode": "afp:zkc-presentation-context:v2"},
+            "afp": {
+                "envelope": "afp:envelope:v1",
+                "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002",
+                "session_context_field": "0x0000000000000000000000000000000000000000000000000000000000000002",
+                "presentation_context_mode": "afp:zkc-presentation-context:v2",
+                "presentation_proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264",
+                "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:telemetry", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:telemetry", "credential_subject_aid": "did:keri:holder-telemetry", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002", "apr_verifier_aid": "did:keri:verifier-telemetry", "presentation_profile": "zkc:presentation:anonymous:v1", "scope_policy": null}, "sha256_digest": "0x8fa9aaff405213e18e7cab76af982ea611cd4ec4995e1e16b9607f5de0402266", "field_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264"},
+                "presentation_result": {"proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264", "credential_subject_aid": "did:keri:holder-telemetry", "proven_predicates": [{"predicate_id": "afp.telemetry.instance_attestation.v2", "predicate_version": "2", "root_class": "root:publisher-manifest", "root_authority_identifier": "E-accountable-authority", "attestation_window": {"starts_at": "2026-01-01T00:00:00Z", "ends_at": "2026-01-02T00:00:00Z"}, "subject_aid": null}]},
+                "required_predicate_policy": {"accepted_predicate_ids": ["afp.telemetry.instance_attestation.v2"], "required_predicate_ids": ["afp.telemetry.instance_attestation.v2"], "accepted_instance_attestation_roots": [{"root_class": "root:publisher-manifest", "root_authority_identifier": "E-accountable-authority"}]},
+                "presentation_subject_assurance": {"basis": "verified-companion-subject-binding-proof"}
+            },
+            "zka": {"transaction_present": false, "coord_proof_present": true, "binding_circuit": null, "bundle_context": "0x0000000000000000000000000000000000000000000000000000000000000002", "coord_context": "0x0000000000000000000000000000000000000000000000000000000000000002"},
+            "zkc": {"proof_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264", "presentation_context_derivation": {"algorithm": "sha-256-mod-bn254-fr", "canonicalization": "rfc8785-jcs", "trust_flow": "afp:trust-flow:telemetry", "preimage": {"kind": "afp:zkc-presentation-context:v2", "purpose": "afp:trust-flow:telemetry", "credential_subject_aid": "did:keri:holder-telemetry", "session_context": "X_0000000000000000000000000000000000000000000000000000000000000002", "apr_verifier_aid": "did:keri:verifier-telemetry", "presentation_profile": "zkc:presentation:anonymous:v1", "scope_policy": null}, "sha256_digest": "0x8fa9aaff405213e18e7cab76af982ea611cd4ec4995e1e16b9607f5de0402266", "field_context": "0x2ee10e197deed38e1ddc2009ac957debc1657e33a5eb3cf4319c943600402264"}, "profile": "zkc:presentation:anonymous:v1", "holder_commitment": null, "presentation_pseudonym": "0x00", "scope_id": "0x00"},
+            "fixture_bindings": []
+        }
+    ]
+}

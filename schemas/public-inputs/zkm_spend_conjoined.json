@@ -1,0 +1,126 @@
+{
+  "version": "zkm:public-inputs:v1",
+  "circuit": "zkm_spend_conjoined",
+  "statement": "zkm:spend-conjoined:v2",
+  "statementSetId": "sha256:f367e0504bcbbe4ca2a150f9c56a7640d5ed21bdb9dec1c1ce4acaa6e023ab49",
+  "vkIdentifier": {
+    "scheme": "ultra_honk",
+    "transcript_target": "noir-recursive",
+    "vk_hash": "0x0b7d35cd871089d6f0dd2629a728427fc29659b55a8060118a16e30320fb34f1"
+  },
+  "toolchain": {
+    "nargo": "1.0.0-beta.25",
+    "barretenberg": "5.0.0"
+  },
+  "proofSystem": "ultra_honk",
+  "curve": "BN254",
+  "encoding": {
+    "fieldElement": "Canonical BN254 scalar field element as 32-byte big-endian; reject out-of-field values without reduction",
+    "jsonValue": "Lowercase 0x-prefixed 64-hex-character string for every public input, including booleans and integers",
+    "order": "Declaration order of pub parameters in noir/zkm_spend_conjoined/src/main.nr main(); never sort object keys to flatten",
+    "names": "Exact registry/Noir snake_case names; reject missing, extra, duplicate or alias members",
+    "booleans": "false = 0, true = 1; reject other decoded values",
+    "integers": "Unsigned integers are zero-extended into one field element; reject values outside the abiType range"
+  },
+  "totalFieldElements": 14,
+  "publicInputs": [
+    {
+      "index": 0,
+      "offset": 0,
+      "name": "kind",
+      "abiType": "u8",
+      "fieldElements": 1
+    },
+    {
+      "index": 1,
+      "offset": 1,
+      "name": "nf",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 2,
+      "offset": 2,
+      "name": "cm_out_1",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 3,
+      "offset": 3,
+      "name": "cm_out_2",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 4,
+      "offset": 4,
+      "name": "mandate_root",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 5,
+      "offset": 5,
+      "name": "revocation_root",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 6,
+      "offset": 6,
+      "name": "revocation_scheme",
+      "abiType": "u8",
+      "fieldElements": 1
+    },
+    {
+      "index": 7,
+      "offset": 7,
+      "name": "current_time",
+      "abiType": "u64",
+      "fieldElements": 1
+    },
+    {
+      "index": 8,
+      "offset": 8,
+      "name": "settlement_context",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 9,
+      "offset": 9,
+      "name": "asset_id_pub",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 10,
+      "offset": 10,
+      "name": "zka_note_root",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 11,
+      "offset": 11,
+      "name": "zka_nullifier",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 12,
+      "offset": 12,
+      "name": "zka_cm_recipient",
+      "abiType": "Field",
+      "fieldElements": 1
+    },
+    {
+      "index": 13,
+      "offset": 13,
+      "name": "zka_cm_change",
+      "abiType": "Field",
+      "fieldElements": 1
+    }
+  ]
+}

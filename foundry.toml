@@ -1,0 +1,69 @@
+[profile.default]
+src = "contracts"
+test = "test"
+out = "out"
+libs = ["dependencies"]
+
+# 0.8.27 is the benchmark compiler pin; current generated verifiers declare
+# >=0.8.21. Pin exactly because compiler changes alter bytecode and gas.
+solc_version = "0.8.27"
+
+optimizer = true
+# runs = 1 is size-over-gas, and it is load-bearing rather than a preference:
+# it is what keeps the generated verifiers' runtime bytecode under the EIP-170
+# 24,576-byte limit. The spend example has 17,613 creation bytes and 17,286
+# runtime bytes, leaving 7,290 runtime bytes of margin. Exact per-contract
+# sizes and the complete dependency closure are in the EVM artifact registry.
+#
+# One compiler profile suffices, but external library linking IS required:
+# ZKTranscriptLib and RelationsLib deploy separately (6,108 and 7,970 runtime
+# bytes). Their complete code identities, self-address fixups and each
+# verifier's materialized immutable words are pinned in the EVM registry.
+# Never raise a test-only size limit to qualify a contract that cannot deploy.
+optimizer_runs = 1
+
+# via_ir stays OFF, for two independent reasons:
+#   1. the bb-generated UltraHonk verifier hits a Yul stack-too-deep UNDER
+#      via_ir (ZKA hit this and had to opt its verifiers out);
+#   2. it is what makes ZKA's "under via_ir each gas anchor needs its own test
+#      contract" lesson structurally inapplicable here rather than merely
+#      unlearned -- all anchors can share one test contract.
+via_ir = false
+
+# tstore/tload, used by ZKMAtomicSettlement's reentrancy guard.
+evm_version = "cancun"
+
+fs_permissions = [
+    { access = "read", path = "./tests/fixtures/proofs" },
+    { access = "read", path = "./test/fixtures/economics/roots.json" },
+    { access = "read", path = "./contracts/ethereum/verifiers" },
+    { access = "read-write", path = "./docs/benchmarks" },
+]
+
+[dependencies]
+forge-std = { version = "1.9.7" }
+
+[soldeer]
+# Vendored via soldeer, matching ZKA. Deliberately NOT a git submodule: a
+# submodule makes the dependency's content a floating pointer resolved at clone
+# time, which is the wrong shape for a repo whose whole point is reproducible
+# measurement.
+remappings_generate = false
+
+# Dedicated stateful assurance budgets. These profiles preserve the compiler,
+# optimizer and deployment-size limits above; only campaign length changes.
+[profile.assurance.invariant]
+runs = 128
+depth = 64
+fail_on_revert = true
+
+[profile.assurance.fuzz]
+runs = 256
+
+[profile.assurance_long.invariant]
+runs = 512
+depth = 128
+fail_on_revert = true
+
+[profile.assurance_long.fuzz]
+runs = 1024

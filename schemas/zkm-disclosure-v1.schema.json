@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:zkm:schema:disclosure:v1",
+  "title": "zkm:disclosure:v1",
+  "description": "Holder-assembled structural envelope. Validate recipient challenge, normative binding, proofs, openings, inclusion and consent separately.",
+  "type": "object",
+  "required": [
+    "version",
+    "metadata",
+    "scope",
+    "contents"
+  ],
+  "properties": {
+    "version": {
+      "const": "zkm:disclosure:v1"
+    },
+    "metadata": {
+      "type": "object",
+      "required": [
+        "generatedAt",
+        "expiresAt",
+        "context",
+        "audienceId",
+        "recipientNonce",
+        "disclosureBinding"
+      ],
+      "properties": {
+        "generatedAt": {
+          "type": "string",
+          "minLength": 1,
+          "format": "date-time"
+        },
+        "expiresAt": {
+          "type": "string",
+          "minLength": 1,
+          "format": "date-time"
+        },
+        "context": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+        },
+        "audienceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recipientNonce": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/nonce32"
+        },
+        "disclosureBinding": {
+          "$ref": "urn:zkm:schema:common:v1#/$defs/nonzeroField"
+        }
+      },
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "kind",
+        "bounds"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "transition",
+            "lineage",
+            "portfolio"
+          ]
+        },
+        "bounds": {
+          "type": "object",
+          "required": [
+            "notBefore",
+            "notAfter"
+          ],
+          "properties": {
+            "notBefore": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "notAfter": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "contents": {
+      "type": "object",
+      "required": [
+        "controlAttestations",
+        "receipts",
+        "delegationRecords",
+        "noteOpenings"
+      ],
+      "properties": {
+        "controlAttestations": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "urn:zkm:schema:proof:v1"
+              },
+              {
+                "properties": {
+                  "statement": {
+                    "const": "zkm:control-attestation:v1"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "receipts": {
+          "type": "array",
+          "items": {
+            "$ref": "urn:zkm:schema:receipt:v1"
+          }
+        },
+        "delegationRecords": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "transitionReceipt",
+              "delegateIdentity",
+              "delegatedSuccessorOpening"
+            ],
+            "properties": {
+              "transitionReceipt": {
+                "$ref": "urn:zkm:schema:receipt:v1"
+              },
+              "delegateIdentity": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "kind",
+                      "identityEvidence"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "const": "out-of-band"
+                      },
+                      "identityEvidence": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "supportingZkcEnvelope": {
+                        "type": "object",
+                        "description": "Optional complete anonymous ZKC presentation, independently validated upstream"
+                      },
+                      "supportingProfile": {
+                        "const": "zkc:presentation:anonymous:v1"
+                      }
+                    },
+                    "additionalProperties": false,
+                    "dependentRequired": {
+                      "supportingZkcEnvelope": [
+                        "supportingProfile"
+                      ],
+                      "supportingProfile": [
+                        "supportingZkcEnvelope"
+                      ]
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "kind",
+                      "profile",
+                      "zkcEnvelope",
+                      "presentationPseudonym",
+                      "scopeId"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "const": "zkc-presentation"
+                      },
+                      "profile": {
+                        "const": "zkc:presentation:scoped:v1"
+                      },
+                      "zkcEnvelope": {
+                        "type": "object",
+                        "description": "Complete upstream-owned ZKC presentation; independently validate against ZKC."
+                      },
+                      "presentationPseudonym": {
+                        "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+                      },
+                      "scopeId": {
+                        "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "kind",
+                      "profile",
+                      "zkcEnvelope",
+                      "holderCommitment"
+                    ],
+                    "properties": {
+                      "kind": {
+                        "const": "zkc-presentation"
+                      },
+                      "profile": {
+                        "const": "zkc:presentation:linkable:v1"
+                      },
+                      "zkcEnvelope": {
+                        "type": "object",
+                        "description": "Complete upstream-owned ZKC presentation; independently validate against ZKC."
+                      },
+                      "holderCommitment": {
+                        "$ref": "urn:zkm:schema:common:v1#/$defs/field"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "delegatedSuccessorOpening": {
+                "$ref": "urn:zkm:schema:common:v1#/$defs/mandateOpening"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "noteOpenings": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "urn:zkm:schema:common:v1#/$defs/mandateOpening"
+              },
+              {
+                "$ref": "urn:zkm:schema:common:v1#/$defs/recipientOpening"
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
